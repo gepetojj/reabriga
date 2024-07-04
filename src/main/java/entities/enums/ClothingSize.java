@@ -1,4 +1,4 @@
-package entities.item.enums;
+package entities.enums;
 
 public enum ClothingSize {
     XXS,

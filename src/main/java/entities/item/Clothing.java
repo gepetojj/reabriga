@@ -1,7 +1,7 @@
 package entities.item;
 
-import entities.item.enums.ClothingSize;
-import entities.item.enums.ClothingType;
+import entities.enums.ClothingSize;
+import entities.enums.ClothingType;
 
 public class Clothing extends Item {
     ClothingType type;
