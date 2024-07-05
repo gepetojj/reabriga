@@ -2,6 +2,7 @@ package cli;
 
 import cli.exceptions.OptionOutOfBoundsException;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class CLI {
         this.sc = sc;
     }
 
-    public int userChoice(List<String> options) {
+    public int userChoice(List<String> options) throws InputMismatchException, OptionOutOfBoundsException {
         for (int i = 0; i < options.size(); i++) {
             var option = options.get(i);
             System.out.printf("%d. %s\n", i + 1, option);
