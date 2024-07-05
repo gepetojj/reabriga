@@ -14,7 +14,12 @@ public class Main {
         var options = new ArrayList<String>();
         options.add("Entrar como abrigo");
         options.add("Entrar como centro de distribuição");
+
         var selected = cli.userChoice(options);
-        System.out.println(selected);
+        if (selected == 1) {
+            new ShelterApp(sc);
+        } else {
+            new DistributionCenterApp(sc);
+        }
     }
 }
