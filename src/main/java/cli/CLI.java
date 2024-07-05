@@ -1,5 +1,7 @@
 package cli;
 
+import cli.exceptions.OptionOutOfBoundsException;
+
 import java.util.Scanner;
 import java.util.List;
 
@@ -16,6 +18,11 @@ public class CLI {
             System.out.printf("%d. %s\n", i + 1, option);
         }
         int selected = sc.nextInt();
+
+        if (selected < 0 || selected > options.size()) {
+            throw new OptionOutOfBoundsException("A opção deve estar entre 0 e " + (options.size() - 1));
+        }
+
         return selected;
     }
 }
