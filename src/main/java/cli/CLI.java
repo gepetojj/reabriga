@@ -18,6 +18,8 @@ public class CLI {
             var option = options.get(i);
             System.out.printf("%d. %s\n", i + 1, option);
         }
+
+        System.out.print("\nDigite aqui: ");
         int selected = sc.nextInt();
 
         if (selected < 0 || selected > options.size()) {

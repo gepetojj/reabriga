@@ -10,10 +10,10 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         CLI cli = new CLI(sc);
 
-        System.out.println("Escolha uma opção:");
+        System.out.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
         var options = new ArrayList<String>();
-        options.add("Opção um");
-        options.add("Opção dois");
+        options.add("Entrar como abrigo");
+        options.add("Entrar como centro de distribuição");
         var selected = cli.userChoice(options);
         System.out.println(selected);
     }
