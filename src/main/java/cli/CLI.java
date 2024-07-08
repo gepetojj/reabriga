@@ -13,6 +13,19 @@ public class CLI {
         this.sc = sc;
     }
 
+    public void print(String message) {
+        System.out.print(message);
+    }
+
+    public void println(String message) {
+        System.out.println(message);
+    }
+
+    public void clear() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public int userChoice(List<String> options) throws InputMismatchException, OptionOutOfBoundsException {
         for (int i = 0; i < options.size(); i++) {
             var option = options.get(i);
