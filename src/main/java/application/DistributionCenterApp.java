@@ -1,11 +1,14 @@
 package application;
 
-import java.util.Scanner;
+import cli.CLI;
 
 public class DistributionCenterApp {
-    protected Scanner sc;
+    protected CLI cli;
 
-    public DistributionCenterApp(Scanner sc) {
-        this.sc = sc;
+    public DistributionCenterApp(CLI cli) {
+        this.cli = cli;
+    }
+
+    public void run() {
     }
 }

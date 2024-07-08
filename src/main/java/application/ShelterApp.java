@@ -1,11 +1,14 @@
 package application;
 
-import java.util.Scanner;
+import cli.CLI;
 
 public class ShelterApp {
-    protected Scanner sc;
+    protected CLI cli;
 
-    public ShelterApp(Scanner sc) {
-        this.sc = sc;
+    public ShelterApp(CLI cli) {
+        this.cli = cli;
+    }
+
+    public void run() {
     }
 }

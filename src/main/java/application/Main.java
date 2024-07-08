@@ -17,9 +17,9 @@ public class Main {
 
         var selected = cli.userChoice(options);
         if (selected == 1) {
-            new ShelterApp(sc);
+            new ShelterApp(cli).run();
         } else {
-            new DistributionCenterApp(sc);
+            new DistributionCenterApp(cli).run();
         }
     }
 }
