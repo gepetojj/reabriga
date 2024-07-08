@@ -10,7 +10,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         CLI cli = new CLI(sc);
 
-        System.out.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
+        cli.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
         var options = new ArrayList<String>();
         options.add("Entrar como abrigo");
         options.add("Entrar como centro de distribuição");
