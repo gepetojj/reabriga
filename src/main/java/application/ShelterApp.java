@@ -1,14 +1,34 @@
 package application;
 
 import cli.CLI;
+import entities.Shelter;
+
+import java.util.ArrayList;
 
 public class ShelterApp {
-    protected CLI cli;
+    private final CLI cli;
+    private Shelter shelter;
 
     public ShelterApp(CLI cli) {
         this.cli = cli;
     }
 
+    private void selectShelter() {
+        cli.println("Escolha um abrigo para entrar no painel de administração:");
+
+        var options = new ArrayList<String>();
+        options.add("Abrigo 1");
+        options.add("Abrigo 2");
+
+        var selected = cli.userChoice(options);
+        if (selected == 2) {
+            shelter = new Shelter("Abrigo 2", "Rua def", "Nome da responsável", "82999999999", "email@gmail.com", 3000, 300);
+        } else {
+            shelter = new Shelter("Abrigo 1", "Rua abc", "Nome do responsável", "82999999999", "email@gmail.com", 1000, 100);
+        }
+    }
+
     public void run() {
+        selectShelter();
     }
 }
