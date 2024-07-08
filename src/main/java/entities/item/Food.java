@@ -1,10 +1,17 @@
 package entities.item;
 
+import jakarta.persistence.*;
+
 import java.time.Instant;
 
+@Entity
+@DiscriminatorValue("food")
 public class Food extends Item {
     String unit;
     Instant validity;
+
+    public Food() {
+    }
 
     public Food(String unit, Instant validity) {
         this.unit = unit;

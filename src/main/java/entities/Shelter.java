@@ -1,8 +1,14 @@
 package entities;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "shelter")
 public class Shelter {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     String name;
     String address;
     String chief;

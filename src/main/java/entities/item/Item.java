@@ -1,8 +1,17 @@
 package entities.item;
 
+
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "item_name")
 public abstract class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long id;
     String name;
     Double quantity;
 

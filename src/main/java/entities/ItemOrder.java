@@ -4,16 +4,25 @@ import entities.enums.OrderStatus;
 import entities.item.Clothing;
 import entities.item.Food;
 import entities.item.Hygiene;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "item_order")
 public class ItemOrder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long id;
     OrderStatus status;
     String refusedMotive;
 
+    @OneToMany
     List<Hygiene> hygiene = new ArrayList<>();
+    @OneToMany
     List<Food> food = new ArrayList<>();
+    @OneToMany
     List<Clothing> clothing = new ArrayList<>();
 
     public ItemOrder() {

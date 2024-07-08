@@ -1,5 +1,11 @@
 package entities.item;
 
-public class Hygiene extends Item {
+import jakarta.persistence.*;
 
+@Entity
+@DiscriminatorValue("hygiene")
+public class Hygiene extends Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long id;
 }

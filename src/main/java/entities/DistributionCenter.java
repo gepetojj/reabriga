@@ -1,11 +1,26 @@
 package entities;
 
-import java.util.Objects;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.List;
+
+@Entity
+@Table(name = "distribution_center")
 public class DistributionCenter {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long id;
     String name;
     String address;
     String postalCode;
+
+    @OneToOne
+    @JoinColumn(name = "inventory_id")
+    Inventory inventory;
+    @OneToMany
+    List<ItemOrder> itemOrders = new ArrayList<>();
 
     public DistributionCenter() {
     }
@@ -14,6 +29,10 @@ public class DistributionCenter {
         this.name = name;
         this.address = address;
         this.postalCode = postalCode;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -26,6 +45,22 @@ public class DistributionCenter {
 
     public String getPostalCode() {
         return postalCode;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     @Override

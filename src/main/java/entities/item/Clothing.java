@@ -2,10 +2,16 @@ package entities.item;
 
 import entities.enums.ClothingSize;
 import entities.enums.ClothingType;
+import jakarta.persistence.*;
 
+@Entity
+@DiscriminatorValue("clothing")
 public class Clothing extends Item {
     ClothingType type;
     ClothingSize size;
+
+    public Clothing() {
+    }
 
     public Clothing(ClothingType type, ClothingSize size) {
         this.type = type;

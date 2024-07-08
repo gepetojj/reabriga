@@ -3,14 +3,27 @@ package entities;
 import entities.item.Clothing;
 import entities.item.Food;
 import entities.item.Hygiene;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.ArrayList;
 
+@Entity
+@Table(name = "inventory")
 public class Inventory {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long id;
+
+    @OneToMany
     List<Hygiene> hygiene = new ArrayList<>();
+    @OneToMany
     List<Food> food = new ArrayList<>();
+    @OneToMany
     List<Clothing> clothing = new ArrayList<>();
+
+    @OneToOne(mappedBy = "inventory")
+    DistributionCenter distributionCenter;
 
     public Inventory() {
     }
