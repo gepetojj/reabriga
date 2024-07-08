@@ -39,9 +39,21 @@ public class ShelterApp {
             var options = new ArrayList<String>();
             options.add("Ver itens no inventário");
             options.add("Ordens de pedido");
+            options.add("Sair");
 
             var selected = cli.userChoice(options);
-            cli.println("" + selected);
+            switch (selected){
+                default:
+                    return;
+
+                case 1:
+                    cli.println("" + selected);
+                    break;
+
+                case 2:
+                    cli.println("" + selected);
+                    break;
+            }
         }
     }
 }
