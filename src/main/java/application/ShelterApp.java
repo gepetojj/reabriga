@@ -30,5 +30,18 @@ public class ShelterApp {
 
     public void run() {
         selectShelter();
+
+        while (true) {
+            cli.clear();
+            cli.println("Administrando o abrigo " + shelter.getName());
+            cli.println("Selecione a opção:");
+
+            var options = new ArrayList<String>();
+            options.add("Ver itens no inventário");
+            options.add("Ordens de pedido");
+
+            var selected = cli.userChoice(options);
+            cli.println("" + selected);
+        }
     }
 }
