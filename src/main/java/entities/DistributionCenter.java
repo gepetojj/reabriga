@@ -18,7 +18,7 @@ public class DistributionCenter implements Serializable {
     String postalCode;
 
     @OneToOne
-    @JoinColumn(name = "inventory_id")
+    @JoinColumn(name = "inventory_id", referencedColumnName = "id")
     Inventory inventory;
     @OneToMany
     List<ItemOrder> itemOrders = new ArrayList<>();

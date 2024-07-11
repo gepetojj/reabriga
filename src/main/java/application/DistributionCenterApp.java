@@ -40,7 +40,7 @@ public class DistributionCenterApp {
 
         while (true) {
             cli.clear();
-            cli.println("Administrando o centro " + distributionCenter.getName());
+            cli.println("Administrando o centro '" + distributionCenter.getName() + "'");
             cli.println("Selecione a opção:");
 
             var options = new ArrayList<String>();

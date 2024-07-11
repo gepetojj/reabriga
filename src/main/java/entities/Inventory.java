@@ -5,12 +5,13 @@ import entities.item.Food;
 import entities.item.Hygiene;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
 @Entity
 @Table(name = "inventory")
-public class Inventory {
+public class Inventory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -24,6 +25,8 @@ public class Inventory {
 
     @OneToOne(mappedBy = "inventory")
     DistributionCenter distributionCenter;
+    @OneToOne(mappedBy = "inventory")
+    Shelter shelter;
 
     public Inventory() {
     }
@@ -32,6 +35,10 @@ public class Inventory {
         this.hygiene = hygiene;
         this.food = food;
         this.clothing = clothing;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public List<Hygiene> getHygiene() {
@@ -68,6 +75,14 @@ public class Inventory {
 
     public void removeClothingItem(Clothing clothing) {
         this.clothing.remove(clothing);
+    }
+
+    public DistributionCenter getDistributionCenter() {
+        return distributionCenter;
+    }
+
+    public Shelter getShelter() {
+        return shelter;
     }
 
     @Override
