@@ -21,6 +21,10 @@ public class DistributionCenterApp {
         cli.println("Escolha um centro de distribuição para entrar no painel de administração:");
 
         var centers = service.getAllDistributionCenters();
+        if (centers.isEmpty()) {
+            throw new RuntimeException("Não há centros de distribuição cadastrados.");
+        }
+
         var options = new ArrayList<String>(centers.size());
         for (var center : centers) {
             options.add(center.getName());
