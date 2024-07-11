@@ -2,11 +2,14 @@ package entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "shelter")
-public class Shelter {
+public class Shelter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     String name;
@@ -16,6 +19,12 @@ public class Shelter {
     String email;
     Integer capacity;
     Integer occupation;
+
+    @OneToOne
+    @JoinColumn(name = "inventory_id", referencedColumnName = "id")
+    Inventory inventory;
+    @OneToMany
+    List<ItemOrder> itemOrders = new ArrayList<>();
 
     public Shelter() {
     }
