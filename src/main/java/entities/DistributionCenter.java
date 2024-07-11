@@ -2,13 +2,14 @@ package entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.List;
 
 @Entity
 @Table(name = "distribution_center")
-public class DistributionCenter {
+public class DistributionCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
