@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "distribution_center")
 public class DistributionCenter {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
     String address;

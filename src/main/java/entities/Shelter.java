@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "shelter")
 public class Shelter {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String name;
     String address;
     String chief;

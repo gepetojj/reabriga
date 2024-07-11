@@ -10,7 +10,7 @@ import java.util.Objects;
 @DiscriminatorColumn(name = "item_name")
 public abstract class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
     Double quantity;

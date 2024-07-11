@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "item_order")
 public class ItemOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     OrderStatus status;
     String refusedMotive;

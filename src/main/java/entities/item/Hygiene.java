@@ -6,6 +6,6 @@ import jakarta.persistence.*;
 @DiscriminatorValue("hygiene")
 public class Hygiene extends Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 }
