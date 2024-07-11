@@ -23,16 +23,22 @@ public class DistributionCenterRepository {
     }
 
     public DistributionCenter save(DistributionCenter distributionCenter) {
+        em.getTransaction().begin();
         em.persist(distributionCenter);
+        em.getTransaction().commit();
         return distributionCenter;
     }
 
     public DistributionCenter update(DistributionCenter distributionCenter) {
+        em.getTransaction().begin();
         em.merge(distributionCenter);
+        em.getTransaction().commit();
         return distributionCenter;
     }
 
     public void delete(DistributionCenter distributionCenter) {
+        em.getTransaction().begin();
         em.remove(distributionCenter);
+        em.getTransaction().commit();
     }
 }
