@@ -2,30 +2,33 @@ package application;
 
 import cli.CLI;
 import entities.DistributionCenter;
+import services.DistributionCenterService;
 
 import java.util.ArrayList;
 
 public class DistributionCenterApp {
     private final CLI cli;
+    private final DistributionCenterService service;
+
     private DistributionCenter distributionCenter;
 
     public DistributionCenterApp(CLI cli) {
         this.cli = cli;
+        this.service = new DistributionCenterService();
     }
 
     private void selectDistributionCenter() {
         cli.println("Escolha um centro de distribuição para entrar no painel de administração:");
 
-        var options = new ArrayList<String>();
-        options.add("Centro de distribuição 1");
-        options.add("Centro de distribuição 2");
+        var centers = service.getAllDistributionCenters();
+        var options = new ArrayList<String>(centers.size());
+        for (var center : centers) {
+            options.add(center.getName());
+        }
 
         var selected = cli.userChoice(options);
-        if (selected == 2) {
-            distributionCenter = new DistributionCenter("Centro de distribuição 1", "Rua abc", "57000000");
-        } else {
-            distributionCenter = new DistributionCenter("Centro de distribuição 2", "Rua def", "57000000");
-        }
+        var index = selected - 1;
+        distributionCenter = centers.get(index);
     }
 
     public void run() {

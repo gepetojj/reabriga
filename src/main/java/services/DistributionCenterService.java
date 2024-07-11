@@ -9,8 +9,8 @@ import java.util.List;
 public class DistributionCenterService {
     DistributionCenterRepository distributionCenterRepository;
 
-    public DistributionCenterService(DistributionCenterRepository distributionCenterRepository) {
-        this.distributionCenterRepository = distributionCenterRepository;
+    public DistributionCenterService() {
+        this.distributionCenterRepository = new DistributionCenterRepository();
     }
 
     public Optional<DistributionCenter> getDistributionCenter(Long distributionCenterId) {
