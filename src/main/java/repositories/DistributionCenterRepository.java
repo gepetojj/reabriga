@@ -15,7 +15,7 @@ public class DistributionCenterRepository {
         return em.createQuery("SELECT c FROM DistributionCenter c", DistributionCenter.class).getResultList();
     }
 
-    public Optional<DistributionCenter> findById(int id) {
+    public Optional<DistributionCenter> findById(Long id) {
         return Optional.ofNullable(em.find(DistributionCenter.class, id));
     }
 
