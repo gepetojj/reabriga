@@ -1,8 +1,8 @@
 package application;
 
 import cli.CLI;
-import jakarta.persistence.EntityManager;
 import persistence.JPAUtil;
+import persistence.Seeding;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,10 +12,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         CLI cli = new CLI(sc);
 
-        try (EntityManager manager = JPAUtil.getEntityManagerFactory().createEntityManager()) {
-            manager.getTransaction().begin();
-            manager.getTransaction().commit();
-            manager.close();
+        try {
+            Seeding.seed();
 
             cli.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
             var options = new ArrayList<String>();
