@@ -31,10 +31,12 @@ public class Inventory implements Serializable {
     public Inventory() {
     }
 
-    public Inventory(List<Hygiene> hygiene, List<Food> food, List<Clothing> clothing) {
-        this.hygiene = hygiene;
-        this.food = food;
-        this.clothing = clothing;
+    public Inventory(DistributionCenter distributionCenter) {
+        this.distributionCenter = distributionCenter;
+    }
+
+    public Inventory(Shelter shelter) {
+        this.shelter = shelter;
     }
 
     public Long getId() {

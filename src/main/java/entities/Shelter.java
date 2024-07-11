@@ -12,6 +12,7 @@ import java.util.Objects;
 public class Shelter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String name;
     String address;
     String chief;

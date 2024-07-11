@@ -48,6 +48,10 @@ public class DistributionCenter implements Serializable {
         return postalCode;
     }
 
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
     public Inventory getInventory() {
         return inventory;
     }

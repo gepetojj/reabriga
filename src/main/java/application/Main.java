@@ -12,7 +12,10 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         CLI cli = new CLI(sc);
 
-        try {
+        try (var em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
+            em.getTransaction().begin();
+            em.getTransaction().commit();
+            em.close();
             Seeding.seed();
 
             cli.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
