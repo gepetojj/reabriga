@@ -16,8 +16,4 @@ public class InventoryService {
     public Optional<Inventory> getInventory(Long inventoryId) {
         return inventoryRepository.findById(inventoryId);
     }
-
-    public List<Inventory> getAllDistributionCenters() {
-        return inventoryRepository.findAll();
-    }
 }
