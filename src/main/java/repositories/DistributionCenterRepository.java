@@ -2,14 +2,19 @@ package repositories;
 
 import entities.DistributionCenter;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceContext;
+import persistence.JPAUtil;
 
 import java.util.List;
 import java.util.Optional;
 
 public class DistributionCenterRepository {
-    @PersistenceContext
-    private EntityManager em;
+    private final EntityManager em;
+
+    public DistributionCenterRepository() {
+        em = JPAUtil.getEntityManagerFactory().createEntityManager();
+    }
 
     public List<DistributionCenter> findAll() {
         return em.createQuery("SELECT c FROM DistributionCenter c", DistributionCenter.class).getResultList();

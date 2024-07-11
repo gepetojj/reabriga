@@ -12,22 +12,26 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         CLI cli = new CLI(sc);
 
-        EntityManager manager = JPAUtil.getEntityManagerFactory().createEntityManager();
-        manager.getTransaction().begin();
-        manager.getTransaction().commit();
-        manager.close();
-        JPAUtil.shutdown();
+        try (EntityManager manager = JPAUtil.getEntityManagerFactory().createEntityManager()) {
+            manager.getTransaction().begin();
+            manager.getTransaction().commit();
+            manager.close();
 
-        cli.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
-        var options = new ArrayList<String>();
-        options.add("Entrar como abrigo");
-        options.add("Entrar como centro de distribuição");
+            cli.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
+            var options = new ArrayList<String>();
+            options.add("Entrar como abrigo");
+            options.add("Entrar como centro de distribuição");
 
-        var selected = cli.userChoice(options);
-        if (selected == 1) {
-            new ShelterApp(cli).run();
-        } else {
-            new DistributionCenterApp(cli).run();
+            var selected = cli.userChoice(options);
+            if (selected == 1) {
+                new ShelterApp(cli).run();
+            } else {
+                new DistributionCenterApp(cli).run();
+            }
+        } finally {
+            JPAUtil.shutdown();
         }
+
+        sc.close();
     }
 }
