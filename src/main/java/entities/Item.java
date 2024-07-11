@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table("item")
+@Table(name = "item")
 public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
