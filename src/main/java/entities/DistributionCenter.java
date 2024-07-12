@@ -12,16 +12,16 @@ import java.util.List;
 public class DistributionCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String address;
-    String postalCode;
+    private Long id;
+    private String name;
+    private String address;
+    private String postalCode;
 
     @OneToOne
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
-    Inventory inventory;
+    private Inventory inventory;
     @OneToMany
-    List<ItemOrder> itemOrders = new ArrayList<>();
+    private final List<ItemOrder> itemOrders = new ArrayList<>();
 
     public DistributionCenter() {
     }
@@ -68,25 +68,40 @@ public class DistributionCenter implements Serializable {
         this.postalCode = postalCode;
     }
 
+    public List<ItemOrder> getItemOrders() {
+        return itemOrders;
+    }
+
+    public void addItemOrder(ItemOrder itemOrder) {
+        itemOrders.add(itemOrder);
+    }
+
+    public void removeItemOrder(ItemOrder itemOrder) {
+        itemOrders.remove(itemOrder);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DistributionCenter that = (DistributionCenter) o;
-        return Objects.equals(getName(), that.getName());
+        return Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getName());
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "DistributionCenter{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", postalCode='" + postalCode + '\'' +
+                ", inventory=" + inventory +
+                ", itemOrders=" + itemOrders +
                 '}';
     }
 }
