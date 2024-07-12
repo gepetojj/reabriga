@@ -25,12 +25,13 @@ public class DistributionCenterApp {
 
     // UTILS
 
-    private void selectDistributionCenter() {
-        cli.println("Escolha um centro de distribuição para entrar no painel de administração:");
-
+    private DistributionCenter selectDistributionCenter() {
         var centers = service.getAllDistributionCenters();
         if (centers.isEmpty()) {
             throw new RuntimeException("Não há centros de distribuição cadastrados.");
+        }
+        if (distributionCenter != null) {
+            centers = centers.stream().filter(center -> !center.equals(distributionCenter)).toList();
         }
 
         var options = new ArrayList<String>(centers.size());
@@ -40,7 +41,7 @@ public class DistributionCenterApp {
 
         var selected = cli.userChoice(options);
         var index = selected - 1;
-        distributionCenter = centers.get(index);
+        return centers.get(index);
     }
 
     // TODO: Abstract this function
@@ -175,8 +176,34 @@ public class DistributionCenterApp {
         }
     }
 
+    // TRANSFERS
+
+    private void transferItems() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss").withZone(ZoneId.systemDefault());
+
+        cli.clear();
+        cli.println("Escolha o centro de distribuição destinatário:");
+        var target = selectDistributionCenter();
+        cli.println("");
+
+        cli.println("Escolha qual item será doado:");
+        var options = new ArrayList<String>();
+        for (var item : distributionCenter.getInventory().getItems()) {
+            if (item.getType() == ItemType.HYGIENE) {
+                options.add(item.getDescription() + " - " + item.getQuantity());
+            } else if (item.getType() == ItemType.CLOTHING) {
+                options.add(item.getDescription() + " - Tipo (M/F): " + item.getClothingType() + " | Tamanho: " + item.getClothingSize());
+            } else {
+                options.add(item.getDescription() + " - " + item.getQuantity() + " " + item.getUnit() + " (" + formatter.format(item.getExpiration()) + ")");
+            }
+        }
+        var selected = cli.userChoice(options);
+        // Chama service para transferir itens
+    }
+
     public void run() {
-        selectDistributionCenter();
+        cli.println("Escolha um centro de distribuição para entrar no painel de administração:");
+        distributionCenter = selectDistributionCenter();
 
         while (true) {
             cli.clear();
@@ -203,7 +230,7 @@ public class DistributionCenterApp {
                     break;
 
                 case 3:
-                    cli.println("" + selected);
+                    transferItems();
                     break;
             }
         }
