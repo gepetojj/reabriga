@@ -35,8 +35,16 @@ public class ItemOrder {
         return status;
     }
 
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
     public String getRefusedMotive() {
         return refusedMotive;
+    }
+
+    public void setRefusedMotive(String refusedMotive) {
+        this.refusedMotive = refusedMotive;
     }
 
     public List<Item> getItems() {

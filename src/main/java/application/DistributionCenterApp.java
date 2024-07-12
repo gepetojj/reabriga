@@ -126,11 +126,11 @@ public class DistributionCenterApp {
         selected = cli.userChoice(options);
 
         if (selected == 1) {
-            // Chama serviço para aceitar ordem de pedido
+            service.updateItemOrderStatus(selectedItemOrder, OrderStatus.ACCEPTED, null);
         } else {
-            String motive = cli.textInput("Digite o motivo da recusa: ");
             // TODO: Validar input
-            // Chama serviço para rejeitar ordem de pedido
+            String motive = cli.textInput("Digite o motivo da recusa: ");
+            service.updateItemOrderStatus(selectedItemOrder, OrderStatus.REFUSED, motive);
         }
     }
 
