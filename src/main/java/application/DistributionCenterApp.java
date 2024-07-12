@@ -95,6 +95,43 @@ public class DistributionCenterApp {
         cli.hold();
     }
 
+    private void respondItemOrders() {
+        cli.clear();
+
+        var itemOrders = distributionCenter.getItemOrders();
+        var pendingItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() == OrderStatus.PENDING).toList();
+        if (pendingItemOrders.isEmpty()) {
+            cli.println("O centro não tem ordens de pedido pendentes ainda.");
+            cli.hold();
+            return;
+        }
+
+        cli.println("Ordens de pedido pendentes do centro '" + distributionCenter.getName() + "':");
+        cli.println("");
+
+        var options = new ArrayList<String>();
+        for (var itemOrder : pendingItemOrders) {
+            options.add("Pedido do abrigo '" + itemOrder.getFromShelter().getName() + "' -> " + itemOrder.getItems().size() + " itens");
+        }
+        cli.println("Escolha uma ordem de pedido para responder:");
+        var selected = cli.userChoice(options);
+        var selectedItemOrder = pendingItemOrders.get(selected - 1);
+
+        cli.clear();
+        cli.println("Escolha a ação para essa ordem de pedido:");
+
+        options.clear();
+        options.add("Aceitar");
+        options.add("Recusar");
+        selected = cli.userChoice(options);
+
+        if (selected == 1) {
+            // Chama serviço para aceitar ordem de pedido
+        } else {
+            // Pergunta motivo e chama serviço para rejeitar ordem de pedido
+        }
+    }
+
     private void itemOrderMenu() {
         while (true) {
             cli.clear();
@@ -116,6 +153,7 @@ public class DistributionCenterApp {
                     break;
 
                 case 2:
+                    respondItemOrders();
                     break;
             }
         }
