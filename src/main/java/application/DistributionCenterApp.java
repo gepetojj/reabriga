@@ -36,6 +36,8 @@ public class DistributionCenterApp {
         distributionCenter = centers.get(index);
     }
 
+    // INVENTORY
+
     private void showInventory() {
         cli.clear();
         cli.println("Inventário do centro '" + distributionCenter.getName() + "':");
@@ -53,6 +55,33 @@ public class DistributionCenterApp {
         }
 
         cli.hold();
+    }
+
+    // ITEM_ORDER
+
+    private void itemOrderMenu() {
+        while (true) {
+            cli.clear();
+            cli.println("Menu de ordens de pedido do centro '" + distributionCenter.getName() + "':");
+            cli.println("Selecione a opção:");
+
+            var options = new ArrayList<String>();
+            options.add("Ver ordens de pedido");
+            options.add("Responder ordem de pedido");
+            options.add("Voltar");
+
+            var selected = cli.userChoice(options);
+            switch (selected) {
+                default:
+                    return;
+
+                case 1:
+                    break;
+
+                case 2:
+                    break;
+            }
+        }
     }
 
     public void run() {
@@ -79,7 +108,7 @@ public class DistributionCenterApp {
                     break;
 
                 case 2:
-                    cli.println("" + selected);
+                    itemOrderMenu();
                     break;
 
                 case 3:
