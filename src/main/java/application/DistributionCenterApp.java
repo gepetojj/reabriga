@@ -128,7 +128,9 @@ public class DistributionCenterApp {
         if (selected == 1) {
             // Chama serviço para aceitar ordem de pedido
         } else {
-            // Pergunta motivo e chama serviço para rejeitar ordem de pedido
+            String motive = cli.textInput("Digite o motivo da recusa: ");
+            // TODO: Validar input
+            // Chama serviço para rejeitar ordem de pedido
         }
     }
 

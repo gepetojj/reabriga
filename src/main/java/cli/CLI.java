@@ -3,6 +3,7 @@ package cli;
 import cli.exceptions.OptionOutOfBoundsException;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.List;
 
@@ -46,5 +47,10 @@ public class CLI {
         sc.nextLine();
 
         return selected;
+    }
+
+    public String textInput(String placeholder) {
+        System.out.print(placeholder);
+        return sc.nextLine();
     }
 }
