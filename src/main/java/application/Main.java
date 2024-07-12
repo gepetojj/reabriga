@@ -12,22 +12,26 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         CLI cli = new CLI(sc);
 
-        try (var em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
-            em.getTransaction().begin();
-            em.getTransaction().commit();
-            em.close();
+        try {
             Seeding.seed();
 
-            cli.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
-            var options = new ArrayList<String>();
-            options.add("Entrar como abrigo");
-            options.add("Entrar como centro de distribuição");
+            while (true) {
+                cli.clear();
+                cli.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
+                var options = new ArrayList<String>();
+                options.add("Entrar como abrigo");
+                options.add("Entrar como centro de distribuição");
+                options.add("Sair");
 
-            var selected = cli.userChoice(options);
-            if (selected == 1) {
-                new ShelterApp(cli).run();
-            } else {
-                new DistributionCenterApp(cli).run();
+                var selected = cli.userChoice(options);
+                if (selected == 1) {
+                    new ShelterApp(cli).run();
+                } else if (selected == 2) {
+
+                    new DistributionCenterApp(cli).run();
+                } else {
+                    break;
+                }
             }
         } finally {
             JPAUtil.shutdown();
