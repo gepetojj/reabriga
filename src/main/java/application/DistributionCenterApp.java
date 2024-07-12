@@ -51,6 +51,8 @@ public class DistributionCenterApp {
                 cli.println(item.getDescription() + " - " + item.getQuantity() + " " + item.getUnit() + " (" + item.getExpiration() + ")");
             }
         }
+
+        cli.hold();
     }
 
     public void run() {

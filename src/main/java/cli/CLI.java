@@ -26,6 +26,11 @@ public class CLI {
         System.out.flush();
     }
 
+    public void hold() {
+        System.out.print("Pressione ENTER para continuar");
+        sc.nextLine();
+    }
+
     public int userChoice(List<String> options) throws InputMismatchException, OptionOutOfBoundsException {
         for (int i = 0; i < options.size(); i++) {
             var option = options.get(i);
@@ -38,6 +43,7 @@ public class CLI {
         if (selected < 0 || selected > options.size()) {
             throw new OptionOutOfBoundsException("A opção deve estar entre 0 e " + (options.size() - 1));
         }
+        sc.nextLine();
 
         return selected;
     }
