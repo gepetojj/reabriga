@@ -2,11 +2,13 @@ package application;
 
 import cli.CLI;
 import entities.DistributionCenter;
+import entities.Item;
 import entities.enums.ItemType;
 import entities.enums.OrderStatus;
 import services.DistributionCenterService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DistributionCenterApp {
     private final CLI cli;
@@ -18,6 +20,8 @@ public class DistributionCenterApp {
         this.cli = cli;
         this.service = new DistributionCenterService();
     }
+
+    // UTILS
 
     private void selectDistributionCenter() {
         cli.println("Escolha um centro de distribuição para entrar no painel de administração:");
@@ -37,15 +41,8 @@ public class DistributionCenterApp {
         distributionCenter = centers.get(index);
     }
 
-    // INVENTORY
-
-    private void showInventory() {
-        cli.clear();
-        cli.println("Inventário do centro '" + distributionCenter.getName() + "':");
-        cli.println("");
-
-        var inventory = distributionCenter.getInventory();
-        for (var item : inventory.getItems()) {
+    private void displayItems(List<Item> items) {
+        for (var item : items) {
             if (item.getType() == ItemType.HYGIENE) {
                 cli.println(item.getDescription() + " - " + item.getQuantity());
             } else if (item.getType() == ItemType.CLOTHING) {
@@ -54,6 +51,17 @@ public class DistributionCenterApp {
                 cli.println(item.getDescription() + " - " + item.getQuantity() + " " + item.getUnit() + " (" + item.getExpiration() + ")");
             }
         }
+    }
+
+    // INVENTORY
+
+    private void showInventory() {
+        cli.clear();
+        cli.println("Inventário do centro '" + distributionCenter.getName() + "':");
+        cli.println("");
+
+        var inventory = distributionCenter.getInventory();
+        displayItems(inventory.getItems());
 
         cli.hold();
     }
