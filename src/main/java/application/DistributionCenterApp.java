@@ -3,6 +3,7 @@ package application;
 import cli.CLI;
 import entities.DistributionCenter;
 import entities.enums.ItemType;
+import entities.enums.OrderStatus;
 import services.DistributionCenterService;
 
 import java.util.ArrayList;
@@ -59,6 +60,33 @@ public class DistributionCenterApp {
 
     // ITEM_ORDER
 
+    private void showItemOrders() {
+        cli.clear();
+
+        var itemOrders = distributionCenter.getItemOrders();
+        if (itemOrders.isEmpty()) {
+            cli.println("O centro não recebeu ordens de pedido ainda.");
+            cli.hold();
+            return;
+        }
+
+        cli.println("Ordens de pedido feitas ao centro '" + distributionCenter.getName() + "':");
+        cli.println("");
+
+        var pendingItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() == OrderStatus.PENDING).toList();
+        var settledItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() != OrderStatus.PENDING).toList();
+
+        for (var itemOrder : pendingItemOrders) {
+            cli.println("Pedido do abrigo '" + itemOrder.getFromShelter().getName() + "' -> " + itemOrder.getItems().size() + " itens");
+        }
+        cli.println("-----------");
+        for (var itemOrder : settledItemOrders) {
+            cli.println("Pedido do abrigo '" + itemOrder.getFromShelter().getName() + "' -> " + itemOrder.getItems().size() + " itens (" + itemOrder.getStatus() + ")");
+        }
+
+        cli.hold();
+    }
+
     private void itemOrderMenu() {
         while (true) {
             cli.clear();
@@ -76,6 +104,7 @@ public class DistributionCenterApp {
                     return;
 
                 case 1:
+                    showItemOrders();
                     break;
 
                 case 2:

@@ -50,6 +50,14 @@ public class ItemOrder {
         this.items.remove(item);
     }
 
+    public Shelter getFromShelter() {
+        return fromShelter;
+    }
+
+    public DistributionCenter getToDistributionCenter() {
+        return toDistributionCenter;
+    }
+
     @Override
     public String toString() {
         return "ItemOrder{" +
