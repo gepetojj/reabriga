@@ -23,6 +23,7 @@ public class ItemOrder {
     private final List<Item> items = new ArrayList<>();
 
     public ItemOrder() {
+        status = OrderStatus.PENDING;
     }
 
     public ItemOrder(OrderStatus status, String refusedMotive) {
@@ -54,8 +55,16 @@ public class ItemOrder {
         return fromShelter;
     }
 
+    public void setFromShelter(Shelter fromShelter) {
+        this.fromShelter = fromShelter;
+    }
+
     public DistributionCenter getToDistributionCenter() {
         return toDistributionCenter;
+    }
+
+    public void setToDistributionCenter(DistributionCenter toDistributionCenter) {
+        this.toDistributionCenter = toDistributionCenter;
     }
 
     @Override

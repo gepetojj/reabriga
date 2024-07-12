@@ -22,9 +22,9 @@ public class ShelterApp {
 
         var selected = cli.userChoice(options);
         if (selected == 2) {
-            shelter = new Shelter("Abrigo 2", "Rua def", "Nome da responsável", "82999999999", "email@gmail.com", 3000, 300);
+            shelter = new Shelter("Abrigo 2", "Rua def", "Nome da responsável", "82999999999", "email@gmail.com");
         } else {
-            shelter = new Shelter("Abrigo 1", "Rua abc", "Nome do responsável", "82999999999", "email@gmail.com", 1000, 100);
+            shelter = new Shelter("Abrigo 1", "Rua abc", "Nome do responsável", "82999999999", "email@gmail.com");
         }
     }
 

@@ -1,8 +1,6 @@
 package persistence;
 
-import entities.DistributionCenter;
-import entities.Inventory;
-import entities.Item;
+import entities.*;
 import entities.enums.ClothingSize;
 import entities.enums.ClothingType;
 
@@ -20,10 +18,20 @@ public class Seeding {
         em.persist(dc2);
         em.persist(dc3);
 
+        var st1 = new Shelter("Abrigo Dois Irmãos", "Rua ABC, Maceió, Alagoas", "Nome do responsável", "82999999999", "email@gmail.com");
+        var st2 = new Shelter("Abrigo Santa Cruz", "Rua DEF, Maceió, Alagoas", "Nome da responsável", "82999999999", "email@gmail.com");
+        em.persist(st1);
+        em.persist(st2);
+
         var inv1 = new Inventory(dc1);
         dc1.setInventory(inv1);
         em.persist(inv1);
         em.persist(dc1);
+
+        var inv2 = new Inventory(st1);
+        st1.setInventory(inv2);
+        em.persist(inv2);
+        em.persist(st1);
 
         var item1 = new Item("pasta-de-dente", "Pasta de dente colgate");
         var item2 = new Item("camisa", "Camisa verde feminina", ClothingType.M, ClothingSize.L);
@@ -35,6 +43,18 @@ public class Seeding {
         inv1.addItem(item2);
         inv1.addItem(item3);
         em.persist(inv1);
+
+        var io1 = new ItemOrder();
+        io1.setFromShelter(st1);
+        io1.setToDistributionCenter(dc1);
+        io1.addItem(item1);
+        io1.addItem(item2);
+        io1.addItem(item3);
+        em.persist(io1);
+        dc1.addItemOrder(io1);
+        st1.addItemOrder(io1);
+        em.persist(dc1);
+        em.persist(st1);
 
         em.getTransaction().commit();
         em.close();

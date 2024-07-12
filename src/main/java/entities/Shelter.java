@@ -18,8 +18,6 @@ public class Shelter implements Serializable {
     String chief;
     String phone;
     String email;
-    Integer capacity;
-    Integer occupation;
 
     @OneToOne
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
@@ -30,14 +28,12 @@ public class Shelter implements Serializable {
     public Shelter() {
     }
 
-    public Shelter(String name, String address, String chief, String phone, String email, Integer capacity, Integer occupation) {
+    public Shelter(String name, String address, String chief, String phone, String email) {
         this.name = name;
         this.address = address;
         this.chief = chief;
         this.phone = phone;
         this.email = email;
-        this.capacity = capacity;
-        this.occupation = occupation;
     }
 
     public String getName() {
@@ -80,20 +76,24 @@ public class Shelter implements Serializable {
         this.email = email;
     }
 
-    public Integer getCapacity() {
-        return capacity;
+    public Inventory getInventory() {
+        return inventory;
     }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
-    public Integer getOccupation() {
-        return occupation;
+    public List<ItemOrder> getItemOrders() {
+        return itemOrders;
     }
 
-    public void setOccupation(Integer occupation) {
-        this.occupation = occupation;
+    public void addItemOrder(ItemOrder itemOrder) {
+        itemOrders.add(itemOrder);
+    }
+
+    public void removeItemOrder(ItemOrder itemOrder) {
+        itemOrders.remove(itemOrder);
     }
 
     @Override
@@ -117,8 +117,6 @@ public class Shelter implements Serializable {
                 ", chief='" + chief + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", capacity=" + capacity +
-                ", occupation=" + occupation +
                 '}';
     }
 }
