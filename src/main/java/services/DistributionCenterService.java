@@ -1,6 +1,7 @@
 package services;
 
 import entities.DistributionCenter;
+import entities.Item;
 import entities.ItemOrder;
 import entities.enums.OrderStatus;
 import repositories.DistributionCenterRepository;
@@ -29,5 +30,19 @@ public class DistributionCenterService {
         order.setStatus(newStatus);
         order.setRefusedMotive(refusedMotive);
         itemOrderService.update(order);
+    }
+
+    public void transferItem(DistributionCenter from, DistributionCenter to, Item item) {
+        if (to.getInventory() == null) {
+            throw new RuntimeException("O destinatário não possui um inventário. Transferência cancelada.");
+        }
+        if (to.getInventory().getItems().size() >= 1000) {
+            throw new RuntimeException("O destinatário está com o armazenamento no limite. Transferência cancelada.");
+        }
+
+        from.getInventory().removeItem(item);
+        distributionCenterRepository.update(from);
+        to.getInventory().addItem(item);
+        distributionCenterRepository.update(to);
     }
 }

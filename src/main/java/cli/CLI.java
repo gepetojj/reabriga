@@ -1,9 +1,8 @@
 package cli;
 
-import cli.exceptions.OptionOutOfBoundsException;
+import exceptions.OptionOutOfBoundsException;
 
 import java.util.InputMismatchException;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.List;
 

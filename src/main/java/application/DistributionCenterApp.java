@@ -188,7 +188,8 @@ public class DistributionCenterApp {
 
         cli.println("Escolha qual item será doado:");
         var options = new ArrayList<String>();
-        for (var item : distributionCenter.getInventory().getItems()) {
+        var items = distributionCenter.getInventory().getItems();
+        for (var item : items) {
             if (item.getType() == ItemType.HYGIENE) {
                 options.add(item.getDescription() + " - " + item.getQuantity());
             } else if (item.getType() == ItemType.CLOTHING) {
@@ -198,7 +199,8 @@ public class DistributionCenterApp {
             }
         }
         var selected = cli.userChoice(options);
-        // Chama service para transferir itens
+        var targetItem = items.get(selected - 1);
+        service.transferItem(distributionCenter, target, targetItem);
     }
 
     public void run() {

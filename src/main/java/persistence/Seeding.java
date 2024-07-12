@@ -33,6 +33,11 @@ public class Seeding {
         em.persist(inv2);
         em.persist(st1);
 
+        var inv3 = new Inventory(dc2);
+        dc2.setInventory(inv3);
+        em.persist(inv3);
+        em.persist(dc2);
+
         var item1 = new Item("pasta-de-dente", "Pasta de dente colgate");
         var item2 = new Item("camisa", "Camisa verde feminina", ClothingType.M, ClothingSize.L);
         var item3 = new Item("pao-de-queijo", "Pão de queijo de Minas", 1.0, "kg", Instant.now());
