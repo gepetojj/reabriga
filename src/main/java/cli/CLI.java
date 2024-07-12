@@ -41,7 +41,7 @@ public class CLI {
         int selected = sc.nextInt();
 
         if (selected < 0 || selected > options.size()) {
-            throw new OptionOutOfBoundsException("A opção deve estar entre 0 e " + (options.size() - 1));
+            throw new OptionOutOfBoundsException("A opção deve estar entre 1 e " + (options.size()));
         }
         sc.nextLine();
 
