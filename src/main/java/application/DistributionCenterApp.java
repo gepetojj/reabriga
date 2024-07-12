@@ -2,6 +2,7 @@ package application;
 
 import cli.CLI;
 import entities.DistributionCenter;
+import entities.enums.ItemType;
 import services.DistributionCenterService;
 
 import java.util.ArrayList;
@@ -35,6 +36,23 @@ public class DistributionCenterApp {
         distributionCenter = centers.get(index);
     }
 
+    private void showInventory() {
+        cli.clear();
+        cli.println("Inventário do centro '" + distributionCenter.getName() + "':");
+        cli.println("");
+
+        var inventory = distributionCenter.getInventory();
+        for (var item : inventory.getItems()) {
+            if (item.getType() == ItemType.HYGIENE) {
+                cli.println(item.getDescription() + " - " + item.getQuantity());
+            } else if (item.getType() == ItemType.CLOTHING) {
+                cli.println(item.getDescription() + " - Tipo (M/F): " + item.getClothingType() + " | Tamanho: " + item.getClothingSize());
+            } else {
+                cli.println(item.getDescription() + " - " + item.getQuantity() + " " + item.getUnit() + " (" + item.getExpiration() + ")");
+            }
+        }
+    }
+
     public void run() {
         selectDistributionCenter();
 
@@ -50,12 +68,12 @@ public class DistributionCenterApp {
             options.add("Sair");
 
             var selected = cli.userChoice(options);
-            switch (selected){
+            switch (selected) {
                 default:
                     return;
 
                 case 1:
-                    cli.println("" + selected);
+                    showInventory();
                     break;
 
                 case 2:
