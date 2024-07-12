@@ -89,7 +89,15 @@ public class DistributionCenterApp {
         }
         cli.println("-----------");
         for (var itemOrder : settledItemOrders) {
-            cli.println("Pedido do abrigo '" + itemOrder.getFromShelter().getName() + "' -> " + itemOrder.getItems().size() + " itens (" + itemOrder.getStatus() + ")");
+            String finalStatement = ")";
+            if (itemOrder.getStatus() == OrderStatus.REFUSED) {
+                finalStatement = ": " + itemOrder.getRefusedMotive() + ")";
+            }
+
+            cli.println("Pedido do abrigo '" +
+                    itemOrder.getFromShelter().getName() +
+                    "' -> " + itemOrder.getItems().size() +
+                    " itens (" + itemOrder.getStatus() + finalStatement);
         }
 
         cli.hold();
