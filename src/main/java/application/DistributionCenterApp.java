@@ -5,6 +5,7 @@ import entities.DistributionCenter;
 import entities.Item;
 import entities.enums.ItemType;
 import entities.enums.OrderStatus;
+import exceptions.TransferException;
 import services.DistributionCenterService;
 
 import java.time.ZoneId;
@@ -200,6 +201,13 @@ public class DistributionCenterApp {
         }
         var selected = cli.userChoice(options);
         var targetItem = items.get(selected - 1);
+
+        if (target.getInventory() == null) {
+            throw new TransferException("O destinatário não possui um inventário. Transferência cancelada.");
+        }
+        if (target.getInventory().getItems().size() >= 1000) {
+            throw new TransferException("O destinatário está com o armazenamento no limite. Transferência cancelada.");
+        }
         service.transferItem(distributionCenter, target, targetItem);
     }
 
