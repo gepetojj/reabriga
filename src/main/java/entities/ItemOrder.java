@@ -11,12 +11,16 @@ import java.util.List;
 public class ItemOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    OrderStatus status;
-    String refusedMotive;
+    private Long id;
+    private OrderStatus status;
+    private String refusedMotive;
 
+    @ManyToOne
+    private Shelter fromShelter;
+    @ManyToOne
+    private DistributionCenter toDistributionCenter;
     @OneToMany
-    List<Item> items = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
 
     public ItemOrder() {
     }
