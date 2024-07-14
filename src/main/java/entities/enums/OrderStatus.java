@@ -3,5 +3,6 @@ package entities.enums;
 public enum OrderStatus {
     PENDING,
     ACCEPTED,
-    REFUSED
+    REFUSED,
+    CANCELLED
 }

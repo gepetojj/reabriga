@@ -4,6 +4,7 @@ import entities.DistributionCenter;
 import entities.Item;
 import entities.ItemOrder;
 import entities.Shelter;
+import entities.enums.OrderStatus;
 import repositories.ShelterRepository;
 
 import java.util.ArrayList;
@@ -50,5 +51,9 @@ public class ShelterService {
         from.addItemOrder(order);
         repository.save(from);
         distributionCenterService.addItemOrder(to, order);
+    }
+
+    public void cancelItemOrder(ItemOrder order) {
+        distributionCenterService.updateItemOrderStatus(order, OrderStatus.CANCELLED, "Cancelada pelo abrigo.");
     }
 }

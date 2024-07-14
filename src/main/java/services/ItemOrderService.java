@@ -17,4 +17,8 @@ public class ItemOrderService {
     public void update(ItemOrder itemOrder) {
         repository.update(itemOrder);
     }
+
+    public void delete(ItemOrder itemOrder) {
+        repository.delete(itemOrder);
+    }
 }

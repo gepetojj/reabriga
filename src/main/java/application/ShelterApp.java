@@ -124,7 +124,7 @@ public class ShelterApp implements LoggedInApp {
 
         var selectedItemsCenters = new ArrayList<DistributionCenter>();
         for (var selectedItem : selectedItems) {
-            var center  = selectedItem.getInventory().getDistributionCenter();
+            var center = selectedItem.getInventory().getDistributionCenter();
             if (!selectedItemsCenters.contains(center)) {
                 selectedItemsCenters.add(center);
             }
@@ -136,6 +136,35 @@ public class ShelterApp implements LoggedInApp {
         }
 
         ui.println("Pedidos feitos com sucesso.");
+        ui.hold();
+    }
+
+    private void cancelItemOrder() {
+        ui.clear();
+
+        var itemOrders = shelter.getItemOrders();
+        if (itemOrders.isEmpty()) {
+            ui.println("O abrigo não criou ordens de pedido ainda.");
+            ui.hold();
+            return;
+        }
+
+        ui.println("Ordens de pedido feitas pelo abrigo '" + shelter.getName() + "':");
+        ui.println("");
+
+        var pendingItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() == OrderStatus.PENDING).toList();
+        var options = new ArrayList<String>(pendingItemOrders.size());
+
+        for (var itemOrder : pendingItemOrders) {
+            options.add("Pedido feito ao centro '" + itemOrder.getToDistributionCenter().getName() + "' -> " + itemOrder.getItems().size() + " itens");
+        }
+
+        ui.println("Escolha qual ordem deseja cancelar:");
+        var selected = ui.userChoice(options);
+        var index = selected - 1;
+
+        service.cancelItemOrder(pendingItemOrders.get(index));
+        ui.println("Ordem cancelada com sucesso.");
         ui.hold();
     }
 
@@ -165,6 +194,7 @@ public class ShelterApp implements LoggedInApp {
                     break;
 
                 case 3:
+                    cancelItemOrder();
                     break;
             }
         }
