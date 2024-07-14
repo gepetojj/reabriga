@@ -200,6 +200,31 @@ public class ShelterApp implements LoggedInApp {
         }
     }
 
+    // EDIT INFO
+
+    private void editShelterInfo() {
+        ui.clear();
+        ui.println("Menu de edição dos dados do abrigo '" + shelter.getName() + "'");
+        ui.println("Digite a nova informação ou deixe em branco para não alterar.");
+        ui.println("");
+
+        var name = ui.textInput("Insira o nome do abrigo (" + shelter.getName() + "): ");
+        var address = ui.textInput("Insira o endereço (" + shelter.getAddress() + "): ");
+        var chief = ui.textInput("Insira o nome do(a) responsável pelo abrigo (" + shelter.getChief() + "): ");
+        var phone = ui.textInput("Insira o telefone para contato (" + shelter.getPhone() + "): ");
+        var email = ui.textInput("Insira o email para contato (" + shelter.getEmail() + "): ");
+
+        if (!name.isBlank()) shelter.setName(name);
+        if (!address.isBlank()) shelter.setAddress(address);
+        if (!chief.isBlank()) shelter.setChief(chief);
+        if (!phone.isBlank()) shelter.setPhone(phone);
+        if (!email.isBlank()) shelter.setEmail(email);
+        service.update(shelter);
+
+        ui.println("Dados atualizados com sucesso.");
+        ui.hold();
+    }
+
     public void run() {
         ui.println("Escolha um abrigo para entrar no painel de administração:");
         shelter = selectShelter();
@@ -213,6 +238,7 @@ public class ShelterApp implements LoggedInApp {
                 var options = new ArrayList<String>();
                 options.add("Ver itens no inventário");
                 options.add("Ordens de pedido");
+                options.add("Editar dados do abrigo");
                 options.add("Sair");
 
                 var selected = ui.userChoice(options);
@@ -226,6 +252,10 @@ public class ShelterApp implements LoggedInApp {
 
                     case 2:
                         itemOrderMenu();
+                        break;
+
+                    case 3:
+                        editShelterInfo();
                         break;
                 }
             } catch (RuntimeException e) {

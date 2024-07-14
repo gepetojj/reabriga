@@ -29,6 +29,10 @@ public class ShelterService {
         repository.update(shelter);
     }
 
+    public void update(Shelter shelter) {
+        repository.update(shelter);
+    }
+
     public Optional<Shelter> getShelter(Long distributionCenterId) {
         return repository.findById(distributionCenterId);
     }
