@@ -3,6 +3,7 @@ package application;
 import application.interfaces.LoggedInApp;
 import application.interfaces.UI;
 import entities.Shelter;
+import entities.enums.OrderStatus;
 import services.ShelterService;
 
 import java.util.ArrayList;
@@ -52,6 +53,41 @@ public class ShelterApp implements LoggedInApp {
 
     // ITEM_ORDER
 
+    private void showItemOrders() {
+        ui.clear();
+
+        var itemOrders = shelter.getItemOrders();
+        if (itemOrders.isEmpty()) {
+            ui.println("O abrigo não recebeu ordens de pedido ainda.");
+            ui.hold();
+            return;
+        }
+
+        ui.println("Ordens de pedido feitas ao abrigo '" + shelter.getName() + "':");
+        ui.println("");
+
+        var pendingItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() == OrderStatus.PENDING).toList();
+        var settledItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() != OrderStatus.PENDING).toList();
+
+        for (var itemOrder : pendingItemOrders) {
+            ui.println("Pedido feito ao centro '" + itemOrder.getToDistributionCenter().getName() + "' -> " + itemOrder.getItems().size() + " itens");
+        }
+        ui.println("-----------");
+        for (var itemOrder : settledItemOrders) {
+            String finalStatement = ")";
+            if (itemOrder.getStatus() == OrderStatus.REFUSED) {
+                finalStatement = ": " + itemOrder.getRefusedMotive() + ")";
+            }
+
+            ui.println("Pedido feito ao centro '" +
+                    itemOrder.getToDistributionCenter().getName() +
+                    "' -> " + itemOrder.getItems().size() +
+                    " itens (" + itemOrder.getStatus() + finalStatement);
+        }
+
+        ui.hold();
+    }
+
     private void itemOrderMenu() {
         while (true) {
             ui.clear();
@@ -70,6 +106,7 @@ public class ShelterApp implements LoggedInApp {
                     return;
 
                 case 1:
+                    showItemOrders();
                     break;
 
                 case 2:
