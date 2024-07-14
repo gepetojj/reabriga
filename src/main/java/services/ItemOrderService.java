@@ -4,7 +4,7 @@ import entities.ItemOrder;
 import repositories.ItemOrderRepository;
 
 public class ItemOrderService {
-    ItemOrderRepository repository;
+    private final ItemOrderRepository repository;
 
     public ItemOrderService() {
         this.repository = new ItemOrderRepository();

@@ -10,8 +10,8 @@ import java.util.Optional;
 import java.util.List;
 
 public class DistributionCenterService {
-    DistributionCenterRepository distributionCenterRepository;
-    ItemOrderService itemOrderService;
+    private final DistributionCenterRepository distributionCenterRepository;
+    private final ItemOrderService itemOrderService;
 
     public DistributionCenterService() {
         this.distributionCenterRepository = new DistributionCenterRepository();

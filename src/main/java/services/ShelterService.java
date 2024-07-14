@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class ShelterService {
-    ShelterRepository repository;
-    DistributionCenterService distributionCenterService;
-    ItemOrderService itemOrderService;
+    private final ShelterRepository repository;
+    private final DistributionCenterService distributionCenterService;
+    private final ItemOrderService itemOrderService;
 
     public ShelterService() {
         this.repository = new ShelterRepository();

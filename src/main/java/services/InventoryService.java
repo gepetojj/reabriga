@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class InventoryService {
-    InventoryRepository inventoryRepository;
+    private final InventoryRepository inventoryRepository;
 
     public InventoryService() {
         this.inventoryRepository = new InventoryRepository();
