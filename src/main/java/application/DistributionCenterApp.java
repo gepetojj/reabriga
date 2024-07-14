@@ -1,9 +1,8 @@
 package application;
 
 import application.interfaces.LoggedInApp;
-import cli.CLI;
+import application.interfaces.UI;
 import entities.DistributionCenter;
-import entities.Item;
 import entities.enums.ItemType;
 import entities.enums.OrderStatus;
 import exceptions.TransferException;
@@ -12,16 +11,15 @@ import services.DistributionCenterService;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DistributionCenterApp implements LoggedInApp {
-    private final CLI cli;
+    private final UI ui;
     private final DistributionCenterService service;
 
     private DistributionCenter distributionCenter;
 
-    public DistributionCenterApp(CLI cli) {
-        this.cli = cli;
+    public DistributionCenterApp(UI ui) {
+        this.ui = ui;
         this.service = new DistributionCenterService();
     }
 
@@ -41,7 +39,7 @@ public class DistributionCenterApp implements LoggedInApp {
             options.add(center.getName());
         }
 
-        var selected = cli.userChoice(options);
+        var selected = ui.userChoice(options);
         var index = selected - 1;
         return centers.get(index);
     }
@@ -49,105 +47,105 @@ public class DistributionCenterApp implements LoggedInApp {
     // INVENTORY
 
     private void showInventory() {
-        cli.clear();
-        cli.println("Inventário do centro '" + distributionCenter.getName() + "':");
-        cli.println("");
+        ui.clear();
+        ui.println("Inventário do centro '" + distributionCenter.getName() + "':");
+        ui.println("");
 
         var inventory = distributionCenter.getInventory();
-        displayItems(cli, inventory.getItems());
+        displayItems(ui, inventory.getItems());
 
-        cli.hold();
+        ui.hold();
     }
 
     // ITEM_ORDER
 
     private void showItemOrders() {
-        cli.clear();
+        ui.clear();
 
         var itemOrders = distributionCenter.getItemOrders();
         if (itemOrders.isEmpty()) {
-            cli.println("O centro não recebeu ordens de pedido ainda.");
-            cli.hold();
+            ui.println("O centro não recebeu ordens de pedido ainda.");
+            ui.hold();
             return;
         }
 
-        cli.println("Ordens de pedido feitas ao centro '" + distributionCenter.getName() + "':");
-        cli.println("");
+        ui.println("Ordens de pedido feitas ao centro '" + distributionCenter.getName() + "':");
+        ui.println("");
 
         var pendingItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() == OrderStatus.PENDING).toList();
         var settledItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() != OrderStatus.PENDING).toList();
 
         for (var itemOrder : pendingItemOrders) {
-            cli.println("Pedido do abrigo '" + itemOrder.getFromShelter().getName() + "' -> " + itemOrder.getItems().size() + " itens");
+            ui.println("Pedido do abrigo '" + itemOrder.getFromShelter().getName() + "' -> " + itemOrder.getItems().size() + " itens");
         }
-        cli.println("-----------");
+        ui.println("-----------");
         for (var itemOrder : settledItemOrders) {
             String finalStatement = ")";
             if (itemOrder.getStatus() == OrderStatus.REFUSED) {
                 finalStatement = ": " + itemOrder.getRefusedMotive() + ")";
             }
 
-            cli.println("Pedido do abrigo '" +
+            ui.println("Pedido do abrigo '" +
                     itemOrder.getFromShelter().getName() +
                     "' -> " + itemOrder.getItems().size() +
                     " itens (" + itemOrder.getStatus() + finalStatement);
         }
 
-        cli.hold();
+        ui.hold();
     }
 
     private void respondItemOrders() {
-        cli.clear();
+        ui.clear();
 
         var itemOrders = distributionCenter.getItemOrders();
         var pendingItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() == OrderStatus.PENDING).toList();
         if (pendingItemOrders.isEmpty()) {
-            cli.println("O centro não tem ordens de pedido pendentes ainda.");
-            cli.hold();
+            ui.println("O centro não tem ordens de pedido pendentes ainda.");
+            ui.hold();
             return;
         }
 
-        cli.println("Ordens de pedido pendentes do centro '" + distributionCenter.getName() + "':");
-        cli.println("");
+        ui.println("Ordens de pedido pendentes do centro '" + distributionCenter.getName() + "':");
+        ui.println("");
 
         var options = new ArrayList<String>();
         for (var itemOrder : pendingItemOrders) {
             options.add("Pedido do abrigo '" + itemOrder.getFromShelter().getName() + "' -> " + itemOrder.getItems().size() + " itens");
         }
-        cli.println("Escolha uma ordem de pedido para responder:");
-        var selected = cli.userChoice(options);
+        ui.println("Escolha uma ordem de pedido para responder:");
+        var selected = ui.userChoice(options);
         var selectedItemOrder = pendingItemOrders.get(selected - 1);
 
-        cli.clear();
-        displayItems(cli, selectedItemOrder.getItems());
-        cli.println("Escolha a ação para essa ordem de pedido:");
+        ui.clear();
+        displayItems(ui, selectedItemOrder.getItems());
+        ui.println("Escolha a ação para essa ordem de pedido:");
 
         options.clear();
         options.add("Aceitar");
         options.add("Recusar");
-        selected = cli.userChoice(options);
+        selected = ui.userChoice(options);
 
         if (selected == 1) {
             service.updateItemOrderStatus(selectedItemOrder, OrderStatus.ACCEPTED, null);
         } else {
             // TODO: Validar input
-            String motive = cli.textInput("Digite o motivo da recusa: ");
+            String motive = ui.textInput("Digite o motivo da recusa: ");
             service.updateItemOrderStatus(selectedItemOrder, OrderStatus.REFUSED, motive);
         }
     }
 
     private void itemOrderMenu() {
         while (true) {
-            cli.clear();
-            cli.println("Menu de ordens de pedido do centro '" + distributionCenter.getName() + "':");
-            cli.println("Selecione a opção:");
+            ui.clear();
+            ui.println("Menu de ordens de pedido do centro '" + distributionCenter.getName() + "':");
+            ui.println("Selecione a opção:");
 
             var options = new ArrayList<String>();
             options.add("Ver ordens de pedido");
             options.add("Responder ordem de pedido");
             options.add("Voltar");
 
-            var selected = cli.userChoice(options);
+            var selected = ui.userChoice(options);
             switch (selected) {
                 default:
                     return;
@@ -168,12 +166,12 @@ public class DistributionCenterApp implements LoggedInApp {
     private void transferItems() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss").withZone(ZoneId.systemDefault());
 
-        cli.clear();
-        cli.println("Escolha o centro de distribuição destinatário:");
+        ui.clear();
+        ui.println("Escolha o centro de distribuição destinatário:");
         var target = selectDistributionCenter();
-        cli.println("");
+        ui.println("");
 
-        cli.println("Escolha qual item será doado:");
+        ui.println("Escolha qual item será doado:");
         var options = new ArrayList<String>();
         var items = distributionCenter.getInventory().getItems();
         for (var item : items) {
@@ -185,7 +183,7 @@ public class DistributionCenterApp implements LoggedInApp {
                 options.add(item.getDescription() + " - " + item.getQuantity() + " " + item.getUnit() + " (" + formatter.format(item.getExpiration()) + ")");
             }
         }
-        var selected = cli.userChoice(options);
+        var selected = ui.userChoice(options);
         var targetItem = items.get(selected - 1);
 
         if (target.getInventory() == null) {
@@ -198,13 +196,13 @@ public class DistributionCenterApp implements LoggedInApp {
     }
 
     public void run() {
-        cli.println("Escolha um centro de distribuição para entrar no painel de administração:");
+        ui.println("Escolha um centro de distribuição para entrar no painel de administração:");
         distributionCenter = selectDistributionCenter();
 
         while (true) {
-            cli.clear();
-            cli.println("Administrando o centro '" + distributionCenter.getName() + "'");
-            cli.println("Selecione a opção:");
+            ui.clear();
+            ui.println("Administrando o centro '" + distributionCenter.getName() + "'");
+            ui.println("Selecione a opção:");
 
             var options = new ArrayList<String>();
             options.add("Ver itens no inventário");
@@ -212,7 +210,7 @@ public class DistributionCenterApp implements LoggedInApp {
             options.add("Transferência de doações");
             options.add("Sair");
 
-            var selected = cli.userChoice(options);
+            var selected = ui.userChoice(options);
             switch (selected) {
                 default:
                     return;

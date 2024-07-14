@@ -1,12 +1,13 @@
 package cli;
 
+import application.interfaces.UI;
 import exceptions.OptionOutOfBoundsException;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.List;
 
-public class CLI {
+public class CLI implements UI {
     protected Scanner sc;
 
     public CLI(Scanner sc) {
