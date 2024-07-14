@@ -126,7 +126,14 @@ public class DistributionCenterApp implements LoggedInApp {
         selected = ui.userChoice(options);
 
         if (selected == 1) {
-            service.updateItemOrderStatus(selectedItemOrder, OrderStatus.ACCEPTED, null);
+            selectedItemOrder = service.updateItemOrderStatus(selectedItemOrder, OrderStatus.ACCEPTED, null);
+            var failedTransfers = service.executeItemOrder(selectedItemOrder);
+
+            if (!failedTransfers.isEmpty()) {
+                ui.println("Alguns itens não puderam ser transferidos e não foram retirados do inventário:");
+                ui.println("");
+                displayItems(ui, failedTransfers);
+            }
         } else {
             // TODO: Validar input
             String motive = ui.textInput("Digite o motivo da recusa: ");

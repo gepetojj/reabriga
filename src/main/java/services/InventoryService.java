@@ -20,4 +20,8 @@ public class InventoryService {
     public void createInventory(Inventory inventory) {
         inventoryRepository.save(inventory);
     }
+
+    public void updateInventory(Inventory inventory) {
+        inventoryRepository.update(inventory);
+    }
 }
