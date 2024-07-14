@@ -200,32 +200,36 @@ public class DistributionCenterApp implements LoggedInApp {
         distributionCenter = selectDistributionCenter();
 
         while (true) {
-            ui.clear();
-            ui.println("Administrando o centro '" + distributionCenter.getName() + "'");
-            ui.println("Selecione a opção:");
+            try {
+                ui.clear();
+                ui.println("Administrando o centro '" + distributionCenter.getName() + "'");
+                ui.println("Selecione a opção:");
 
-            var options = new ArrayList<String>();
-            options.add("Ver itens no inventário");
-            options.add("Ordens de pedido");
-            options.add("Transferência de doações");
-            options.add("Sair");
+                var options = new ArrayList<String>();
+                options.add("Ver itens no inventário");
+                options.add("Ordens de pedido");
+                options.add("Transferência de doações");
+                options.add("Sair");
 
-            var selected = ui.userChoice(options);
-            switch (selected) {
-                default:
-                    return;
+                var selected = ui.userChoice(options);
+                switch (selected) {
+                    default:
+                        return;
 
-                case 1:
-                    showInventory();
-                    break;
+                    case 1:
+                        showInventory();
+                        break;
 
-                case 2:
-                    itemOrderMenu();
-                    break;
+                    case 2:
+                        itemOrderMenu();
+                        break;
 
-                case 3:
-                    transferItems();
-                    break;
+                    case 3:
+                        transferItems();
+                        break;
+                }
+            } catch (RuntimeException e) {
+                ui.println("[ERRO] " + e.getMessage());
             }
         }
     }

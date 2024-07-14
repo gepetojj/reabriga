@@ -123,27 +123,31 @@ public class ShelterApp implements LoggedInApp {
         shelter = selectShelter();
 
         while (true) {
-            ui.clear();
-            ui.println("Administrando o abrigo " + shelter.getName());
-            ui.println("Selecione a opção:");
+            try {
+                ui.clear();
+                ui.println("Administrando o abrigo " + shelter.getName());
+                ui.println("Selecione a opção:");
 
-            var options = new ArrayList<String>();
-            options.add("Ver itens no inventário");
-            options.add("Ordens de pedido");
-            options.add("Sair");
+                var options = new ArrayList<String>();
+                options.add("Ver itens no inventário");
+                options.add("Ordens de pedido");
+                options.add("Sair");
 
-            var selected = ui.userChoice(options);
-            switch (selected){
-                default:
-                    return;
+                var selected = ui.userChoice(options);
+                switch (selected) {
+                    default:
+                        return;
 
-                case 1:
-                    showInventory();
-                    break;
+                    case 1:
+                        showInventory();
+                        break;
 
-                case 2:
-                    itemOrderMenu();
-                    break;
+                    case 2:
+                        itemOrderMenu();
+                        break;
+                }
+            } catch (RuntimeException e) {
+                ui.println("[ERRO] " + e.getMessage());
             }
         }
     }
