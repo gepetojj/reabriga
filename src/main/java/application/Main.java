@@ -24,7 +24,7 @@ public class Main {
                     var options = new ArrayList<String>();
                     options.add("Entrar como abrigo");
                     options.add("Entrar como centro de distribuição");
-                    options.add("Sair");
+                    options.add("Fechar app");
 
                     var selected = cli.userChoice(options);
                     if (selected == 1) {
