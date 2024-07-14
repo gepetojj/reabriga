@@ -3,30 +3,38 @@ package application;
 import application.interfaces.LoggedInApp;
 import application.interfaces.UI;
 import entities.Shelter;
+import services.ShelterService;
 
 import java.util.ArrayList;
 
 public class ShelterApp implements LoggedInApp {
     private final UI ui;
+    private final ShelterService service;
+
     private Shelter shelter;
 
     public ShelterApp(UI ui) {
         this.ui = ui;
+        this.service = new ShelterService();
     }
 
-    private void selectShelter() {
-        ui.println("Escolha um abrigo para entrar no painel de administração:");
+    private Shelter selectShelter() {
+        var shelters = service.getAllShelters();
+        if (shelters.isEmpty()) {
+            throw new RuntimeException("Não há abrigos cadastrados.");
+        }
+        if (shelter != null) {
+            shelters = shelters.stream().filter(center -> !center.equals(shelter)).toList();
+        }
 
-        var options = new ArrayList<String>();
-        options.add("Abrigo 1");
-        options.add("Abrigo 2");
+        var options = new ArrayList<String>(shelters.size());
+        for (var center : shelters) {
+            options.add(center.getName());
+        }
 
         var selected = ui.userChoice(options);
-        if (selected == 2) {
-            shelter = new Shelter("Abrigo 2", "Rua def", "Nome da responsável", "82999999999", "email@gmail.com");
-        } else {
-            shelter = new Shelter("Abrigo 1", "Rua abc", "Nome do responsável", "82999999999", "email@gmail.com");
-        }
+        var index = selected - 1;
+        return shelters.get(index);
     }
 
     // INVENTORY
@@ -43,7 +51,8 @@ public class ShelterApp implements LoggedInApp {
     }
 
     public void run() {
-        selectShelter();
+        ui.println("Escolha um abrigo para entrar no painel de administração:");
+        shelter = selectShelter();
 
         while (true) {
             ui.clear();
