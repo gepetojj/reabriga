@@ -1,9 +1,6 @@
 package services;
 
-import entities.DistributionCenter;
-import entities.Item;
-import entities.ItemOrder;
-import entities.Shelter;
+import entities.*;
 import entities.enums.OrderStatus;
 import repositories.ShelterRepository;
 
@@ -15,15 +12,21 @@ public class ShelterService {
     private final ShelterRepository repository;
     private final DistributionCenterService distributionCenterService;
     private final ItemOrderService itemOrderService;
+    private final InventoryService inventoryService;
 
     public ShelterService() {
         this.repository = new ShelterRepository();
         this.distributionCenterService = new DistributionCenterService();
         this.itemOrderService = new ItemOrderService();
+        this.inventoryService = new InventoryService();
     }
 
     public void create(Shelter shelter) {
+        Inventory inventory = new Inventory(shelter);
         repository.save(shelter);
+        inventoryService.createInventory(inventory);
+        shelter.setInventory(inventory);
+        repository.update(shelter);
     }
 
     public Optional<Shelter> getShelter(Long distributionCenterId) {
