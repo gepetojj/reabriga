@@ -41,13 +41,17 @@ public class Seeding {
         var item1 = new Item("pasta-de-dente", "Pasta de dente colgate");
         var item2 = new Item("camisa", "Camisa verde feminina", ClothingType.M, ClothingSize.L);
         var item3 = new Item("pao-de-queijo", "Pão de queijo de Minas", 1.0, "kg", Instant.now());
+        var item4 = new Item("escova-de-dentes", "Escova de dentes");
         em.persist(item1);
         em.persist(item2);
         em.persist(item3);
+        em.persist(item4);
         inv1.addItem(item1);
         inv1.addItem(item2);
         inv1.addItem(item3);
+        inv2.addItem(item4);
         em.persist(inv1);
+        em.persist(inv2);
 
         var io1 = new ItemOrder();
         io1.setFromShelter(st1);
