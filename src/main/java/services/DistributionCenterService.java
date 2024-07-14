@@ -32,6 +32,11 @@ public class DistributionCenterService {
         itemOrderService.update(order);
     }
 
+    public void addItemOrder(DistributionCenter center, ItemOrder order) {
+        center.addItemOrder(order);
+        distributionCenterRepository.update(center);
+    }
+
     public void transferItem(DistributionCenter from, DistributionCenter to, Item item) {
         from.getInventory().removeItem(item);
         distributionCenterRepository.update(from);

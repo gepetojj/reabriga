@@ -10,6 +10,10 @@ public class ItemOrderService {
         this.repository = new ItemOrderRepository();
     }
 
+    public void create(ItemOrder itemOrder) {
+        repository.save(itemOrder);
+    }
+
     public void update(ItemOrder itemOrder) {
         repository.update(itemOrder);
     }

@@ -1,6 +1,8 @@
 package services;
 
+import entities.DistributionCenter;
 import entities.Item;
+import entities.ItemOrder;
 import entities.Shelter;
 import repositories.ShelterRepository;
 
@@ -11,10 +13,12 @@ import java.util.Optional;
 public class ShelterService {
     ShelterRepository repository;
     DistributionCenterService distributionCenterService;
+    ItemOrderService itemOrderService;
 
     public ShelterService() {
         this.repository = new ShelterRepository();
         this.distributionCenterService = new DistributionCenterService();
+        this.itemOrderService = new ItemOrderService();
     }
 
     public Optional<Shelter> getShelter(Long distributionCenterId) {
@@ -33,5 +37,18 @@ public class ShelterService {
             items.addAll(centerItems);
         }
         return items;
+    }
+
+    public void createItemOrder(DistributionCenter to, Shelter from, List<Item> items) {
+        ItemOrder order = new ItemOrder();
+        order.setFromShelter(from);
+        order.setToDistributionCenter(to);
+        for (var item : items) {
+            order.addItem(item);
+        }
+        itemOrderService.create(order);
+        from.addItemOrder(order);
+        repository.save(from);
+        distributionCenterService.addItemOrder(to, order);
     }
 }

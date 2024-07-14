@@ -61,12 +61,12 @@ public class ShelterApp implements LoggedInApp {
 
         var itemOrders = shelter.getItemOrders();
         if (itemOrders.isEmpty()) {
-            ui.println("O abrigo não recebeu ordens de pedido ainda.");
+            ui.println("O abrigo não criou ordens de pedido ainda.");
             ui.hold();
             return;
         }
 
-        ui.println("Ordens de pedido feitas ao abrigo '" + shelter.getName() + "':");
+        ui.println("Ordens de pedido feitas pelo abrigo '" + shelter.getName() + "':");
         ui.println("");
 
         var pendingItemOrders = itemOrders.stream().filter(itemOrder -> itemOrder.getStatus() == OrderStatus.PENDING).toList();
@@ -131,9 +131,12 @@ public class ShelterApp implements LoggedInApp {
         }
 
         for (var center : selectedItemsCenters) {
-            var centerItems = selectedItems.stream().filter(i -> i.getInventory().getDistributionCenter().equals(center));
-            // Cria ordem de pedido para cada centro
+            var centerItems = selectedItems.stream().filter(i -> i.getInventory().getDistributionCenter().equals(center)).toList();
+            service.createItemOrder(center, shelter, centerItems);
         }
+
+        ui.println("Pedidos feitos com sucesso.");
+        ui.hold();
     }
 
     private void itemOrderMenu() {
@@ -158,6 +161,7 @@ public class ShelterApp implements LoggedInApp {
                     break;
 
                 case 2:
+                    createItemOrder();
                     break;
 
                 case 3:
