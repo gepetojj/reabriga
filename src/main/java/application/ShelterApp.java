@@ -200,7 +200,22 @@ public class ShelterApp implements LoggedInApp {
         }
     }
 
-    // EDIT INFO
+    // INFO
+
+    private void showShelterInfo() {
+        ui.clear();
+        ui.println("Dados do abrigo '" + shelter.getName() + "':");
+        ui.println("");
+
+        ui.println("Nome do abrigo: " + shelter.getName());
+        ui.println("Endereço do abrigo: " + shelter.getAddress());
+        ui.println("Responsável pelo abrigo: " + shelter.getChief());
+        ui.println("Telefone do abrigo: " + shelter.getPhone());
+        ui.println("Email do abrigo: " + shelter.getEmail());
+
+        ui.println("");
+        ui.hold();
+    }
 
     private void editShelterInfo() {
         ui.clear();
@@ -238,6 +253,7 @@ public class ShelterApp implements LoggedInApp {
                 var options = new ArrayList<String>();
                 options.add("Ver itens no inventário");
                 options.add("Ordens de pedido");
+                options.add("Ver dados do abrigo");
                 options.add("Editar dados do abrigo");
                 options.add("Sair");
 
@@ -255,6 +271,10 @@ public class ShelterApp implements LoggedInApp {
                         break;
 
                     case 3:
+                        showShelterInfo();
+                        break;
+
+                    case 4:
                         editShelterInfo();
                         break;
                 }
