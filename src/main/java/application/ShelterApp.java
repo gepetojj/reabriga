@@ -50,6 +50,37 @@ public class ShelterApp implements LoggedInApp {
         ui.hold();
     }
 
+    // ITEM_ORDER
+
+    private void itemOrderMenu() {
+        while (true) {
+            ui.clear();
+            ui.println("Menu de ordens de pedido do abrigo '" + shelter.getName() + "':");
+            ui.println("Selecione a opção:");
+
+            var options = new ArrayList<String>();
+            options.add("Ver ordens de pedido");
+            options.add("Criar ordem de pedido");
+            options.add("Cancelar ordem de pedido");
+            options.add("Voltar");
+
+            var selected = ui.userChoice(options);
+            switch (selected) {
+                default:
+                    return;
+
+                case 1:
+                    break;
+
+                case 2:
+                    break;
+
+                case 3:
+                    break;
+            }
+        }
+    }
+
     public void run() {
         ui.println("Escolha um abrigo para entrar no painel de administração:");
         shelter = selectShelter();
@@ -74,7 +105,7 @@ public class ShelterApp implements LoggedInApp {
                     break;
 
                 case 2:
-                    ui.println("" + selected);
+                    itemOrderMenu();
                     break;
             }
         }
