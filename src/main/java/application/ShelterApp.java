@@ -233,4 +233,21 @@ public class ShelterApp implements LoggedInApp {
             }
         }
     }
+
+    public void registerNew() {
+        ui.clear();
+        ui.println("Formulário para registrar novo abrigo");
+        ui.println("");
+
+        var name = ui.textInput("Insira o nome do abrigo: ");
+        var address = ui.textInput("Insira o endereço: ");
+        var chief = ui.textInput("Insira o nome do(a) responsável pelo abrigo: ");
+        var phone = ui.textInput("Insira o telefone para contato: ");
+        var email = ui.textInput("Insira o email para contato: ");
+
+        var newShelter = new Shelter(name, address, chief, phone, email);
+        service.create(newShelter);
+        ui.println("Abrigo registrado com sucesso.");
+        ui.hold();
+    }
 }

@@ -22,6 +22,10 @@ public class ShelterService {
         this.itemOrderService = new ItemOrderService();
     }
 
+    public void create(Shelter shelter) {
+        repository.save(shelter);
+    }
+
     public Optional<Shelter> getShelter(Long distributionCenterId) {
         return repository.findById(distributionCenterId);
     }

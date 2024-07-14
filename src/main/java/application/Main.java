@@ -17,23 +17,32 @@ public class Main {
         try {
             Seeding.seed();
 
-            while (true) {
+            mainLoop: while (true) {
                 try {
                     cli.clear();
                     cli.println("Bem-vindo(a) ao Reabriga!\nFaça login:");
                     var options = new ArrayList<String>();
                     options.add("Entrar como abrigo");
                     options.add("Entrar como centro de distribuição");
+                    options.add("Registrar novo abrigo");
                     options.add("Fechar app");
 
                     var selected = cli.userChoice(options);
-                    if (selected == 1) {
-                        new ShelterApp(cli).run();
-                    } else if (selected == 2) {
+                    switch (selected) {
+                        default:
+                            break mainLoop;
 
-                        new DistributionCenterApp(cli).run();
-                    } else {
-                        break;
+                        case 1:
+                            new ShelterApp(cli).run();
+                            break;
+
+                        case 2:
+                            new DistributionCenterApp(cli).run();
+                            break;
+
+                        case 3:
+                            new ShelterApp(cli).registerNew();
+                            break;
                     }
                 } catch (RuntimeException e) {
                     cli.println("[ERRO] " + e.getMessage());
