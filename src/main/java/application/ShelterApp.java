@@ -2,11 +2,14 @@ package application;
 
 import application.interfaces.LoggedInApp;
 import application.interfaces.UI;
+import entities.DistributionCenter;
+import entities.Item;
 import entities.Shelter;
 import entities.enums.OrderStatus;
 import services.ShelterService;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ShelterApp implements LoggedInApp {
     private final UI ui;
@@ -86,6 +89,51 @@ public class ShelterApp implements LoggedInApp {
         }
 
         ui.hold();
+    }
+
+    private void createItemOrder() {
+        ui.clear();
+
+        var items = service.getAvailableItems();
+        displayItems(ui, items);
+        ui.println("");
+
+        var options = new ArrayList<String>(items.size());
+        for (var item : items) {
+            options.add(item.getDescription());
+        }
+        options.add("Finalizar");
+
+        var selectedItems = new ArrayList<Item>();
+        while (true) {
+            ui.clear();
+            ui.println("Selecione o item para adicionar à ordem de pedido:");
+            var selected = ui.userChoice(options);
+            if (selected == options.size()) {
+                break;
+            }
+
+            var description = options.get(selected - 1);
+            items.stream().filter(i -> Objects.equals(i.getDescription(), description)).findFirst().ifPresent((item) -> {
+                selectedItems.add(item);
+                options.remove(item.getDescription());
+                ui.println(item.getDescription() + " adicionado.");
+            });
+            ui.hold();
+        }
+
+        var selectedItemsCenters = new ArrayList<DistributionCenter>();
+        for (var selectedItem : selectedItems) {
+            var center  = selectedItem.getInventory().getDistributionCenter();
+            if (!selectedItemsCenters.contains(center)) {
+                selectedItemsCenters.add(center);
+            }
+        }
+
+        for (var center : selectedItemsCenters) {
+            var centerItems = selectedItems.stream().filter(i -> i.getInventory().getDistributionCenter().equals(center));
+            // Cria ordem de pedido para cada centro
+        }
     }
 
     private void itemOrderMenu() {
