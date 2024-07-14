@@ -1,9 +1,14 @@
 package application;
 
 import cli.CLI;
+import entities.Item;
 import entities.Shelter;
+import entities.enums.ItemType;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShelterApp {
     private final CLI cli;
@@ -28,6 +33,34 @@ public class ShelterApp {
         }
     }
 
+    // TODO: Abstract this function
+    private void displayItems(List<Item> items) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")
+                .withZone(ZoneId.systemDefault());
+        for (var item : items) {
+            if (item.getType() == ItemType.HYGIENE) {
+                cli.println(item.getDescription() + " - " + item.getQuantity());
+            } else if (item.getType() == ItemType.CLOTHING) {
+                cli.println(item.getDescription() + " - Tipo (M/F): " + item.getClothingType() + " | Tamanho: " + item.getClothingSize());
+            } else {
+                cli.println(item.getDescription() + " - " + item.getQuantity() + " " + item.getUnit() + " (" + formatter.format(item.getExpiration()) + ")");
+            }
+        }
+    }
+
+    // INVENTORY
+
+    private void showInventory() {
+        cli.clear();
+        cli.println("Inventário do abrigo '" + shelter.getName() + "':");
+        cli.println("");
+
+        var inventory = shelter.getInventory();
+        displayItems(inventory.getItems());
+
+        cli.hold();
+    }
+
     public void run() {
         selectShelter();
 
@@ -47,7 +80,7 @@ public class ShelterApp {
                     return;
 
                 case 1:
-                    cli.println("" + selected);
+                    showInventory();
                     break;
 
                 case 2:
