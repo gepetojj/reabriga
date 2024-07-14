@@ -196,7 +196,8 @@ public class DistributionCenterApp implements LoggedInApp {
         if (target.getInventory() == null) {
             throw new TransferException("O destinatário não possui um inventário. Transferência cancelada.");
         }
-        if (target.getInventory().getItems().size() >= 1000) {
+        var targetItemTypeCapacity = target.getInventory().getItems().stream().filter(i -> i.getType().equals(targetItem.getType())).toList();
+        if (targetItemTypeCapacity.size() >= 1000) {
             throw new TransferException("O destinatário está com o armazenamento no limite. Transferência cancelada.");
         }
         service.transferItem(distributionCenter, target, targetItem);
