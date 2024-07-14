@@ -1,5 +1,6 @@
 package application;
 
+import application.interfaces.LoggedInApp;
 import cli.CLI;
 import entities.DistributionCenter;
 import entities.Item;
@@ -13,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DistributionCenterApp {
+public class DistributionCenterApp implements LoggedInApp {
     private final CLI cli;
     private final DistributionCenterService service;
 
@@ -45,21 +46,6 @@ public class DistributionCenterApp {
         return centers.get(index);
     }
 
-    // TODO: Abstract this function
-    private void displayItems(List<Item> items) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")
-                .withZone(ZoneId.systemDefault());
-        for (var item : items) {
-            if (item.getType() == ItemType.HYGIENE) {
-                cli.println(item.getDescription() + " - " + item.getQuantity());
-            } else if (item.getType() == ItemType.CLOTHING) {
-                cli.println(item.getDescription() + " - Tipo (M/F): " + item.getClothingType() + " | Tamanho: " + item.getClothingSize());
-            } else {
-                cli.println(item.getDescription() + " - " + item.getQuantity() + " " + item.getUnit() + " (" + formatter.format(item.getExpiration()) + ")");
-            }
-        }
-    }
-
     // INVENTORY
 
     private void showInventory() {
@@ -68,7 +54,7 @@ public class DistributionCenterApp {
         cli.println("");
 
         var inventory = distributionCenter.getInventory();
-        displayItems(inventory.getItems());
+        displayItems(cli, inventory.getItems());
 
         cli.hold();
     }
@@ -133,7 +119,7 @@ public class DistributionCenterApp {
         var selectedItemOrder = pendingItemOrders.get(selected - 1);
 
         cli.clear();
-        displayItems(selectedItemOrder.getItems());
+        displayItems(cli, selectedItemOrder.getItems());
         cli.println("Escolha a ação para essa ordem de pedido:");
 
         options.clear();
