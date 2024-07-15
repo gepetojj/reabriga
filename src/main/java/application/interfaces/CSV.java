@@ -5,5 +5,6 @@ import java.nio.file.Path;
 import java.util.List;
 
 public interface CSV {
-    List<String[]> read(Path path) throws IOException, Exception;
+    // FORMATO CSV: type,name,description,quantity,clothing_type,clothing_size,unit,expiration
+    List<String[]> read() throws IOException, Exception;
 }

@@ -9,8 +9,13 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class CSV implements application.interfaces.CSV {
-    @Override
-    public List<String[]> read(Path path) throws IOException, Exception {
+    Path path;
+
+    CSV(Path path) {
+        this.path = path;
+    }
+
+    public List<String[]> read() throws Exception {
         try (Reader reader = Files.newBufferedReader(path)) {
             try (CSVReader csvReader = new CSVReader(reader)) {
                 return csvReader.readAll();
