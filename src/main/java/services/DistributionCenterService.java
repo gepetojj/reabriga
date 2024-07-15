@@ -73,13 +73,21 @@ public class DistributionCenterService {
         distributionCenterRepository.update(to);
     }
 
-    public void addItems(DistributionCenter to, List<Item> items) {
+    public List<Item> addItems(DistributionCenter to, List<Item> items) {
+        var failedItemTransfer = new ArrayList<Item>();
         for (var item : items) {
-            itemService.createItem(item);
-            to.getInventory().addItem(item);
-            inventoryService.updateInventory(to.getInventory());
-            item.setInventory(to.getInventory());
-            itemService.updateItem(item);
+            var dcItems = to.getInventory().getItems();
+            var shelterItemTypeCapacity = dcItems.stream().filter(i -> i.getType().equals(item.getType())).toList();
+            if (shelterItemTypeCapacity.size() >= 1000) {
+                failedItemTransfer.add(item);
+            } else {
+                itemService.createItem(item);
+                to.getInventory().addItem(item);
+                inventoryService.updateInventory(to.getInventory());
+                item.setInventory(to.getInventory());
+                itemService.updateItem(item);
+            }
         }
+        return failedItemTransfer;
     }
 }

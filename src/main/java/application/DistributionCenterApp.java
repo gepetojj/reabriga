@@ -264,8 +264,15 @@ public class DistributionCenterApp implements LoggedInApp {
             items.add(item);
         }
 
-        service.addItems(distributionCenter, items);
-        ui.println("Itens adicionados com sucesso.");
+        var failedTransfers = service.addItems(distributionCenter, items);
+        if (!failedTransfers.isEmpty()) {
+            ui.println("Alguns itens não puderam ser registrados por falta de espaço:");
+            ui.println("");
+            displayItems(ui, failedTransfers);
+        } else {
+            ui.println("Itens adicionados com sucesso.");
+        }
+
         ui.hold();
     }
 
@@ -287,8 +294,14 @@ public class DistributionCenterApp implements LoggedInApp {
             var selected = ui.userChoice(options);
             if (selected == options.size()) return;
 
-            service.addItems(distributionCenter, items);
-            ui.println("Itens adicionados com sucesso.");
+            var failedTransfers = service.addItems(distributionCenter, items);
+            if (!failedTransfers.isEmpty()) {
+                ui.println("Alguns itens não puderam ser registrados por falta de espaço:");
+                ui.println("");
+                displayItems(ui, failedTransfers);
+            } else {
+                ui.println("Itens adicionados com sucesso.");
+            }
         } catch (Exception e) {
             ui.clear();
             ui.println("[ERRO] Não foi possível interpretar o arquivo CSV: " + e.getMessage());
