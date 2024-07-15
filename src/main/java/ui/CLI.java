@@ -1,4 +1,4 @@
-package cli;
+package ui;
 
 import application.interfaces.UI;
 import exceptions.OptionOutOfBoundsException;

@@ -1,11 +1,10 @@
 package application;
 
 import application.interfaces.UI;
-import cli.CLI;
+import ui.CLI;
 import persistence.JPAUtil;
 import persistence.Seeding;
 
-import javax.management.RuntimeErrorException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
