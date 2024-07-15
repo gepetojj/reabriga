@@ -239,6 +239,8 @@ public class DistributionCenterApp implements LoggedInApp {
                     var size = ui.textInput("Digite o tamanho da roupa (XXS, XS, S, M, L, XL): ");
                     item.setClothingType(ClothingType.valueOf(type));
                     item.setClothingSize(ClothingSize.valueOf(size));
+                    item.setType(ItemType.CLOTHING);
+                    item.setQuantity(1.0);
                     break;
 
                 case 2:
@@ -250,9 +252,12 @@ public class DistributionCenterApp implements LoggedInApp {
                     item.setQuantity(quantityInDouble);
                     item.setUnit(unit);
                     item.setExpiration(expirationInInstant);
+                    item.setType(ItemType.FOOD);
                     break;
 
                 default:
+                    item.setType(ItemType.HYGIENE);
+                    item.setQuantity(1.0);
                     break;
             }
 

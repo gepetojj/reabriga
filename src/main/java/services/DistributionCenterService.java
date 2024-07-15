@@ -15,11 +15,13 @@ public class DistributionCenterService {
     private final DistributionCenterRepository distributionCenterRepository;
     private final ItemOrderService itemOrderService;
     private final InventoryService inventoryService;
+    private final ItemService itemService;
 
     public DistributionCenterService() {
         this.distributionCenterRepository = new DistributionCenterRepository();
         this.itemOrderService = new ItemOrderService();
         this.inventoryService = new InventoryService();
+        this.itemService =  new ItemService();
     }
 
     public Optional<DistributionCenter> getDistributionCenter(Long distributionCenterId) {
@@ -73,9 +75,11 @@ public class DistributionCenterService {
 
     public void addItems(DistributionCenter to, List<Item> items) {
         for (var item : items) {
+            itemService.createItem(item);
             to.getInventory().addItem(item);
-            item.setInventory(to.getInventory());
             inventoryService.updateInventory(to.getInventory());
+            item.setInventory(to.getInventory());
+            itemService.updateItem(item);
         }
     }
 }
