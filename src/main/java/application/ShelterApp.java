@@ -6,10 +6,12 @@ import entities.DistributionCenter;
 import entities.Item;
 import entities.Shelter;
 import entities.enums.OrderStatus;
+import jakarta.validation.*;
 import services.ShelterService;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Set;
 
 public class ShelterApp implements LoggedInApp {
     private final UI ui;
@@ -295,9 +297,25 @@ public class ShelterApp implements LoggedInApp {
         var phone = ui.textInput("Insira o telefone para contato: ");
         var email = ui.textInput("Insira o email para contato: ");
 
-        var newShelter = new Shelter(name, address, chief, phone, email);
-        service.create(newShelter);
-        ui.println("Abrigo registrado com sucesso.");
+        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+            var validator = factory.getValidator();
+            var newShelter = new Shelter(name, address, chief, phone, email);
+            Set<ConstraintViolation<Shelter>> violations = validator.validate(newShelter);
+
+            if (!violations.isEmpty()) {
+                ui.clear();
+                ui.println("Não foi possível registrar o abrigo por erros de validação:");
+                ui.println("");
+                for (ConstraintViolation<Shelter> violation : violations) {
+                    ui.println(violation.getMessage());
+                }
+            } else {
+                service.create(newShelter);
+                ui.println("Abrigo registrado com sucesso.");
+            }
+        } catch (Exception e) {
+            ui.println("[ERRO] " + e.getMessage());
+        }
         ui.hold();
     }
 }

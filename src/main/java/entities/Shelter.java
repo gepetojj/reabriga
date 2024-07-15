@@ -1,6 +1,10 @@
 package entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,10 +17,18 @@ public class Shelter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @NotEmpty(message = "O campo nome é obrigatório.")
     String name;
+    @NotEmpty(message = "O campo endereço é obrigatório.")
     String address;
+    @NotEmpty(message = "O campo responsável é obrigatório.")
+    @Size(min = 4, max = 50, message = "O campo responsável deve ter entre 4 e 50 caracteres.")
     String chief;
+    @NotEmpty(message = "O campo telefone é obrigatório.")
+    @Size(min = 11, max = 11, message = "O campo telefone deve ter 11 caracteres. Ex: 82999999999")
     String phone;
+    @NotEmpty(message = "O campo email é obrigatório.")
+    @Email(message = "O campo email deve ter um formato válido. Ex: email@gmail.com")
     String email;
 
     @OneToOne
