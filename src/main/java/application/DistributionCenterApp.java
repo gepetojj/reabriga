@@ -3,11 +3,15 @@ package application;
 import application.interfaces.LoggedInApp;
 import application.interfaces.UI;
 import entities.DistributionCenter;
+import entities.Item;
+import entities.enums.ClothingSize;
+import entities.enums.ClothingType;
 import entities.enums.ItemType;
 import entities.enums.OrderStatus;
 import exceptions.TransferException;
 import services.DistributionCenterService;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -205,6 +209,61 @@ public class DistributionCenterApp implements LoggedInApp {
 
     // DONATIONS
 
+    private void registerDonation() {
+        ui.clear();
+        ui.println("Formulário de registro de doação:");
+        ui.println("");
+
+        var options = new ArrayList<String>();
+        options.add("Roupa");
+        options.add("Comida");
+        options.add("Item de higiene");
+        options.add("Finalizar");
+
+        var items = new ArrayList<Item>();
+
+        while (true) {
+            ui.println("Selecione o tipo do item sendo doado:");
+            var selected = ui.userChoice(options);
+            if (selected == options.size()) break;
+
+            var item = new Item();
+            var name = ui.textInput("Digite o nome do item no formato slug (ex.: pasta-de-dentes): ");
+            var description = ui.textInput("Digite a descrição do item: ");
+            item.setName(name);
+            item.setDescription(description);
+
+            switch (selected) {
+                case 1:
+                    var type = ui.textInput("Digite o tipo da roupa (M/F): ");
+                    var size = ui.textInput("Digite o tamanho da roupa (XXS, XS, S, M, L, XL): ");
+                    item.setClothingType(ClothingType.valueOf(type));
+                    item.setClothingSize(ClothingSize.valueOf(size));
+                    break;
+
+                case 2:
+                    var quantity = ui.textInput("Digite o quantidade do item: ");
+                    var quantityInDouble = Double.parseDouble(quantity);
+                    var unit = ui.textInput("Digite a unidade de medida: ");
+                    var expiration = ui.textInput("Digite a data de validade: ");
+                    var expirationInInstant = Instant.parse(expiration);
+                    item.setQuantity(quantityInDouble);
+                    item.setUnit(unit);
+                    item.setExpiration(expirationInInstant);
+                    break;
+
+                default:
+                    break;
+            }
+
+            items.add(item);
+        }
+
+        service.addItems(distributionCenter, items);
+        ui.println("Itens adicionados com sucesso.");
+        ui.hold();
+    }
+
     private void donationsMenu() {
         while (true) {
             ui.clear();
@@ -221,6 +280,7 @@ public class DistributionCenterApp implements LoggedInApp {
                     return;
 
                 case 1:
+                    registerDonation();
                     break;
 
                 case 2:

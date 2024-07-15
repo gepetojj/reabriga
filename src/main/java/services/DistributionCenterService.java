@@ -70,4 +70,12 @@ public class DistributionCenterService {
         to.getInventory().addItem(item);
         distributionCenterRepository.update(to);
     }
+
+    public void addItems(DistributionCenter to, List<Item> items) {
+        for (var item : items) {
+            to.getInventory().addItem(item);
+            item.setInventory(to.getInventory());
+            inventoryService.updateInventory(to.getInventory());
+        }
+    }
 }
