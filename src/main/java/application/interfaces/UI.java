@@ -1,5 +1,7 @@
 package application.interfaces;
 
+import entities.Item;
+
 import java.util.List;
 
 public interface UI {
@@ -8,4 +10,5 @@ public interface UI {
     void hold();
     int userChoice(List<String> choices);
     String textInput(String placeholder);
+    List<Item> getItemsFromCSV(String placeholder) throws Exception;
 }

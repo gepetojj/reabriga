@@ -209,7 +209,7 @@ public class DistributionCenterApp implements LoggedInApp {
 
     // DONATIONS
 
-    private void registerDonation() {
+    private void registerDonations() {
         ui.clear();
         ui.println("Formulário de registro de doação:");
         ui.println("");
@@ -269,6 +269,34 @@ public class DistributionCenterApp implements LoggedInApp {
         ui.hold();
     }
 
+    private void registerDonationsFromCSV() {
+        ui.clear();
+        ui.println("Registro de doações via CSV");
+        ui.println("");
+
+        try {
+            var items = ui.getItemsFromCSV("Digite o caminho do arquivo: ");
+            displayItems(ui, items);
+            ui.println("");
+            ui.println("Verifique a lista acima e escolha uma opção:");
+
+            var options = new ArrayList<String>();
+            options.add("Registrar lote");
+            options.add("Cancelar operação");
+
+            var selected = ui.userChoice(options);
+            if (selected == options.size()) return;
+
+            service.addItems(distributionCenter, items);
+            ui.println("Itens adicionados com sucesso.");
+        } catch (Exception e) {
+            ui.clear();
+            ui.println("[ERRO] Não foi possível interpretar o arquivo CSV: " + e.getMessage());
+        }
+
+        ui.hold();
+    }
+
     private void donationsMenu() {
         while (true) {
             ui.clear();
@@ -286,10 +314,11 @@ public class DistributionCenterApp implements LoggedInApp {
                     return;
 
                 case 1:
-                    registerDonation();
+                    registerDonations();
                     break;
 
                 case 2:
+                    registerDonationsFromCSV();
                     break;
             }
         }

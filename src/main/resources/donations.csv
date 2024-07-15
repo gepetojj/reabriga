@@ -1,0 +1,2 @@
+type,name,description,quantity,clothing_type,clothing_size,unit,expiration
+HYGIENE,veio-do-csv,VEIO DO CSV,1.0,null,null,null,null
