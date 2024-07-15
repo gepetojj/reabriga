@@ -278,6 +278,7 @@ public class DistributionCenterApp implements LoggedInApp {
             var options = new ArrayList<String>();
             options.add("Registrar lote manualmente");
             options.add("Registrar lote via arquivo CSV");
+            options.add("Voltar");
 
             var selected = ui.userChoice(options);
             switch (selected) {
