@@ -1,1 +1,4 @@
 type,name,description,quantity,clothing_type,clothing_size,unit,expiration
+CLOTHING,sapato,Sapato,1.0,M,XXS,null,null
+FOOD,arroz,Arroz,3.0,null,null,kg,2024-12-30T00:00:00Z
+HYGIENE,fio-dental,Fio dental,5.0,null,null,null,null
