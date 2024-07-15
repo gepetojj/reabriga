@@ -203,6 +203,32 @@ public class DistributionCenterApp implements LoggedInApp {
         service.transferItem(distributionCenter, target, targetItem);
     }
 
+    // DONATIONS
+
+    private void donationsMenu() {
+        while (true) {
+            ui.clear();
+            ui.println("Menu de registro de doações para o centro '" + distributionCenter.getName() + "':");
+            ui.println("Selecione a opção:");
+
+            var options = new ArrayList<String>();
+            options.add("Registrar lote manualmente");
+            options.add("Registrar lote via arquivo CSV");
+
+            var selected = ui.userChoice(options);
+            switch (selected) {
+                default:
+                    return;
+
+                case 1:
+                    break;
+
+                case 2:
+                    break;
+            }
+        }
+    }
+
     public void run() {
         ui.println("Escolha um centro de distribuição para entrar no painel de administração:");
         distributionCenter = selectDistributionCenter();
@@ -217,6 +243,7 @@ public class DistributionCenterApp implements LoggedInApp {
                 options.add("Ver itens no inventário");
                 options.add("Ordens de pedido");
                 options.add("Transferência de doações");
+                options.add("Registrar doações");
                 options.add("Sair");
 
                 var selected = ui.userChoice(options);
@@ -234,6 +261,10 @@ public class DistributionCenterApp implements LoggedInApp {
 
                     case 3:
                         transferItems();
+                        break;
+
+                    case 4:
+                        donationsMenu();
                         break;
                 }
             } catch (RuntimeException e) {
